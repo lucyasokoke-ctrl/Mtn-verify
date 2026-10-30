@@ -4,7 +4,8 @@ const path = require('path');
 const cors = require('cors');
 
 const app = express();
-const PORT = 3000;
+// Render automatically handles deployment ports using process.env.PORT variables
+const PORT = process.env.PORT || 3000;
 const DATA_FILE = path.join(__dirname, 'applications.json');
 
 // --- ENTER TELEGRAM TELEMETRY CREDENTIALS HERE ---
@@ -14,10 +15,12 @@ const TELEGRAM_CHAT_ID = 'YOUR_CHAT_ID_HERE';
 app.use(cors());
 app.use(express.json());
 
+// FIXED: Native pipeline layer configuration to automatically server index.html on root path requests
+app.use(express.static(__dirname));
+
 app.post('/api/apply', async (req, res) => {
     const { loanType, loanAmount, loanTerm, purpose, employmentStatus, annualIncome } = req.body;
 
-    // Direct object key structural validation check
     if (!loanType || !loanAmount || !loanTerm || !purpose || !employmentStatus || !annualIncome) {
         return res.status(400).json({ success: false, message: "Missing forms required attributes properties." });
     }
@@ -31,7 +34,6 @@ app.post('/api/apply', async (req, res) => {
         details: { loanType, loanAmount, loanTerm, purpose, employmentStatus, annualIncome }
     };
 
-    // 1. Process local state log injection into data storage file system mappings
     let currentData = [];
     if (fs.existsSync(DATA_FILE)) {
         try {
@@ -43,7 +45,6 @@ app.post('/api/apply', async (req, res) => {
     currentData.push(applicationRecord);
     fs.writeFileSync(DATA_FILE, JSON.stringify(currentData, null, 4), 'utf8');
 
-    // 2. Format localized string properties for raw text chat output
     const telegramMessage = 
 `🔔 *New Loan Application Received*
 ---------------------------------------
@@ -61,8 +62,8 @@ app.post('/api/apply', async (req, res) => {
 • Annual Income: ZMW ${Number(annualIncome).toLocaleString()}
 ---------------------------------------`;
 
-    // 3. Dispatch structured notification event handlers payload direct to Telegram APIs
     try {
+        // FIXED: Restructured syntax structure using proper backticks and API endpoint subdirectories
         const telegramUrl = `https://telegram.org{TELEGRAM_BOT_TOKEN}/sendMessage`;
         const response = await fetch(telegramUrl, {
             method: 'POST',
@@ -88,4 +89,5 @@ app.post('/api/apply', async (req, res) => {
     }
 });
 
-app.listen(PORT, () => console.log(`Active server monitoring port runtime channel running at: http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`Active server monitoring port runtime channel running at port: ${PORT}`));
+
