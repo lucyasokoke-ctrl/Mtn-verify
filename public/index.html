@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="/script.js" defer></script>
-    <title>Loan Application Portal</title>
+    <title>MTN MoMo Loans Portal</title>
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
 
         body {
@@ -21,15 +20,14 @@
             min-height: 100vh;
         }
 
-        /* Top Navigation Header Bar */
+        /* Top Header Bar Matching MTN Branding Colors */
         .nav-header {
-            background-color: #003366;
+            background-color: #002c53;
             color: #fff;
-            padding: 15px 20px;
+            padding: 14px 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            font-weight: bold;
         }
 
         .nav-header .back-btn {
@@ -37,202 +35,245 @@
             text-decoration: none;
             font-size: 14px;
             cursor: pointer;
-            display: flex;
-            align-items: center;
         }
 
-        /* Main Content Grid Wrapper */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .momo-logo {
+            background-color: #ffcc00;
+            color: #002c53;
+            padding: 4px 6px;
+            border-radius: 6px;
+            font-weight: 900;
+            font-size: 18px;
+        }
+
+        .menu-icon {
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        /* Core Content Container Layout */
         .container {
             flex: 1;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 16px;
         }
 
-        /* Central Card Interface Component */
         .card {
             background: #fff;
             border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.05);
             width: 100%;
-            max-width: 450px;
-            padding: 30px 24px;
+            max-width: 440px;
+            padding: 24px 20px;
             text-align: center;
         }
 
-        .page-title {
-            font-size: 24px;
-            color: #0b2240;
-            margin-bottom: 8px;
+        .welcome-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #002c53;
+            margin-bottom: 4px;
         }
 
         .page-subtitle {
-            font-size: 14px;
+            font-size: 13px;
             color: #666;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
 
-        /* Step Progress Tracking Elements */
+        .section-heading {
+            text-align: left;
+            font-size: 15px;
+            font-weight: bold;
+            color: #002c53;
+            margin-bottom: 12px;
+        }
+
+        /* Progress Steps Indicators */
         .progress-container {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 25px;
-            gap: 8px;
+            margin-bottom: 20px;
+            gap: 6px;
         }
 
         .progress-bar {
-            height: 4px;
+            height: 5px;
             flex: 1;
-            background-color: #e0e0e0;
-            border-radius: 2px;
+            background-color: #e2e8f0;
+            border-radius: 3px;
         }
 
         .progress-bar.active {
-            background-color: #ffcc00;
+            background-color: #eab308;
         }
 
-        /* Form Styling Core Rules */
+        /* Input Controls and Labels Layout styles */
         .form-group {
             text-align: left;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+            margin-bottom: 0;
         }
 
         label {
             display: block;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
-            margin-bottom: 8px;
-            color: #444;
+            margin-bottom: 6px;
+            color: #4a5568;
         }
 
         input[type="text"], input[type="number"], select, textarea {
             width: 100%;
-            padding: 12px 16px;
-            border: 1px solid #ccc;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
             border-radius: 8px;
-            font-size: 16px;
+            font-size: 15px;
             outline: none;
             background-color: #fff;
-            color: #333;
         }
 
         input:focus, select:focus, textarea:focus {
-            border-color: #ffcc00;
-            box-shadow: 0 0 0 3px rgba(255, 204, 0, 0.2);
+            border-color: #eab308;
         }
 
-        /* Slider Controls Layout Logic */
-        .slider-container {
-            margin: 20px 0;
+        /* Custom Interactive Slider Component Layout */
+        .slider-wrapper {
+            margin: 10px 0;
         }
 
         .slider {
             width: 100%;
-            margin: 10px 0;
+            margin: 8px 0;
+            accent-color: #eab308;
             cursor: pointer;
         }
 
         .slider-labels {
             display: flex;
             justify-content: space-between;
-            font-size: 12px;
-            color: #888;
+            font-size: 11px;
+            color: #a0aec0;
         }
 
-        /* Value Spotlighting Rules */
-        .highlight-val {
-            font-size: 22px;
-            font-weight: bold;
-            color: #ffbb00;
-            margin-top: 4px;
-        }
-
+        /* UI Spotlighting boxes blocks */
         .display-box {
-            background-color: #fffdf3;
-            border: 1px solid #fff3cd;
+            background-color: #f8fafc;
+            border: 1px solid #edf2f7;
             border-radius: 8px;
-            padding: 15px;
+            padding: 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
+            margin-bottom: 24px;
             text-align: left;
         }
 
-        /* Error Notification Banner */
+        .highlight-text {
+            font-size: 24px;
+            font-weight: 800;
+            color: #eab308;
+        }
+
+        .calc-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .calc-row span:last-child {
+            font-weight: bold;
+            color: #eab308;
+        }
+
         .error-banner {
             background-color: #fff5f5;
-            border: 1px solid #feb2b2;
+            border: 1px solid #fed2b2;
             color: #c53030;
             padding: 12px;
-            border-radius: 8px;
-            font-size: 14px;
-            margin-bottom: 20px;
+            border-radius: 6px;
+            font-size: 13px;
+            margin-bottom: 16px;
             text-align: left;
-            display: flex;
-            align-items: center;
-            gap: 8px;
         }
 
-        /* Summary Preview Panel */
+        .field-desc {
+            font-size: 11px;
+            color: #a0aec0;
+            margin-top: 4px;
+            text-align: left;
+        }
+
+        /* Summary Review elements style rule blocks */
         .summary-box {
-            border: 1px solid #eee;
-            border-left: 4px solid #ffcc00;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 25px;
-            background-color: #fafafa;
+            border: 1px solid #e2e8f0;
+            border-left: 4px solid #eab308;
+            border-radius: 6px;
+            padding: 14px;
+            margin-bottom: 24px;
+            background-color: #f8fafc;
         }
 
         .summary-row {
             display: flex;
             justify-content: space-between;
-            font-size: 14px;
-            padding: 8px 0;
-            border-bottom: 1px solid #f7f7f7;
-        }
-
-        .summary-row:last-child {
-            border-bottom: none;
+            font-size: 13px;
+            padding: 6px 0;
         }
 
         .summary-row span:first-child {
-            color: #777;
+            color: #718096;
         }
 
         .summary-row span:last-child {
             font-weight: 600;
+            color: #1a202c;
         }
 
-        /* Interactive Buttons */
+        /* Interface Buttons styling definitions */
         .btn {
             width: 100%;
             padding: 14px;
             border: none;
             border-radius: 8px;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: bold;
             cursor: pointer;
-            transition: background 0.2s ease;
         }
 
         .btn-primary {
-            background-color: #0b2240;
+            background-color: #003a6c;
             color: #fff;
         }
 
         .btn-primary:hover {
-            background-color: #051429;
+            background-color: #002c53;
         }
 
         .btn-secondary {
-            background-color: #e2e8f0;
-            color: #4a5568;
-        }
-
-        .btn-secondary:hover {
-            background-color: #cbd5e0;
+            background-color: #cbd5e1;
+            color: #475569;
         }
 
         .btn-group {
@@ -240,117 +281,93 @@
             gap: 12px;
         }
 
-        /* Dark Blue Processing Screen Overlay View */
+        /* Target Fullscreen Blue Processing View Overlay */
         .processing-view {
+            background-color: #002c53;
+            color: white;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            color: white;
             text-align: center;
+            z-index: 9999;
+            padding: 24px;
         }
 
-        .spinner {
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            width: 50px;
-            height: 50px;
+        .spinner-outer {
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
-            border-left-color: #fff;
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
         }
 
-        @keyframes spin {
+        .hourglass-icon {
+            font-size: 32px;
+            animation: flip 2s ease-in-out infinite;
+        }
+
+        @keyframes flip {
             0% { transform: rotate(0deg); }
+            50% { transform: rotate(180deg); }
             100% { transform: rotate(360deg); }
         }
 
-        /* Footer Copyright Elements */
-        footer {
-            background-color: #0b2240;
-            color: #a0aec0;
-            text-align: center;
-            padding: 15px;
-            font-size: 12px;
-        }
-
-        /* Step Routing Engine Style Triggers */
         .hidden { display: none !important; }
-        .bg-processing { background-color: #0b2240 !important; }
     </style>
 </head>
 <body>
 
-    <!-- Header Navigation Layout -->
+    <!-- Top Application Banner Headers -->
     <div id="headerNav" class="nav-header">
-        <span class="back-btn" onclick="goToStep('calc')">← Back</span>
-        <div>Portal</div>
-        <div>☰</div>
+        <span class="back-btn" id="headerBackBtn" onclick="handleBackRoute()">← Back</span>
+        <div class="logo-container">
+            <span class="momo-logo">mM</span> Loans
+        </div>
+        <div class="menu-icon">☰</div>
     </div>
 
-    <!-- Main Dynamic Application Container -->
-    <div id="mainContainer" class="container">
-        
+    <div class="container" id="mainContainer">
+
         <!-- VIEW 1: Main Calculator Layout Screen -->
         <div id="view-calc" class="card">
-            <h1 class="page-title">Welcome</h1>
-            <p class="page-subtitle">Get solutions easily through our portal</p>
+            <h1 class="welcome-title">Welcome to MTN MoMo</h1>
+            <p class="page-subtitle">Get loans easily through MTN MoMo</p>
             
-            <div class="form-group">
-                <label>Amount</label>
-                <div class="highlight-val" id="calc-amt-val">ZMW 1,000,500</div>
-                <div class="slider-container">
-                    <input type="range" min="500" max="5000000" value="1000500" step="500" class="slider" id="amt-slider" oninput="updateCalc()">
-                    <div class="slider-labels">
-                        <span>ZMW 500</span>
-                        <span>ZMW 5,000,000</span>
-                    </div>
+            <div class="section-heading">Loan Calculator</div>
+            
+            <div class="calc-row">
+                <span>Amount</span>
+                <span id="calc-amt-lbl">UGX 1,000,000</span>
+            </div>
+            
+            <div class="slider-wrapper">
+                <input type="range" min="500000" max="5000000" value="1000000" step="50000" class="slider" id="amt-slider" oninput="updateCalculatorView()">
+                <div class="slider-labels">
+                    <span>UGX 500,000</span>
+                    <span>UGX 5,000,000</span>
                 </div>
             </div>
-            
-            <div class="form-group">
-                <label>Term</label>
-                <div class="highlight-val">48 Months</div>
+
+            <div class="calc-row" style="margin-top: 16px;">
+                <span>Term</span>
+                <span style="color: #eab308;">48 Months</span>
             </div>
             
-            <div class="display-box">
-                <div>
-                    <div style="font-size: 14px; color: #666;">Estimated Monthly Payment</div>
-                </div>
-                <div class="highlight-val" style="font-size: 24px;">ZMW 20,844</div>
+            <div class="display-box" style="margin-top: 16px;">
+                <div style="font-size: 13px; color: #666; font-weight: 500;">Monthly<br>Payment</div>
+                <div class="highlight-text">UGX 20,844</div>
             </div>
-            
+
             <button class="btn btn-primary" onclick="goToStep(1)">START APPLICATION</button>
         </div>
 
         <!-- VIEW 2: Application Entry Step 1 -->
         <div id="view-step1" class="card hidden">
-            <h1 class="page-title">Application Details</h1>
-            <p class="page-subtitle">Step 1 of 3</p>
-            
-            <div class="progress-container">
-                <div class="progress-bar active"></div>
-                <div class="progress-bar"></div>
-                <div class="progress-bar"></div>
-            </div>
-            
-            <div id="error-banner" class="error-banner hidden">
-                <span>✕</span> Please complete all required fields.
-            </div>
-            
-            <div class="form-group">
-                <label>Type</label>
-                <select id="loan-type">
-                    <option value="Business Loan">Business Loan</option>
-                    <option value="Personal Loan">Personal Loan</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label>Amount (ZMW)</label>
-                <input type="number" id="form-amt" value="1000000">
-            </div>
-            
-            <div class="form-group">
-                <label>Term</label>
+            <h1 class="welcome-title" style="font-size: 20px;">Loan Application</h1>
 
