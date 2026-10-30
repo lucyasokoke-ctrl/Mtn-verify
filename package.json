@@ -1,1 +1,16 @@
-[]
+{
+  "name": "loan-portal-app",
+  "version": "1.0.0",
+  "description": "Multi-step loan tracking management system layout panel",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
+  },
+  "author": "",
+  "license": "ISC"
+}
+
