@@ -14,6 +14,11 @@ const TELEGRAM_CHAT_ID = 'YOUR_CHAT_ID_HERE';
 
 app.use(cors());
 app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 // FIXED: Native pipeline layer configuration to automatically server index.html on root path requests
 app.use(express.static(__dirname));
