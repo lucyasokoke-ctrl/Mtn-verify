@@ -64,7 +64,7 @@ app.post('/api/apply', async (req, res) => {
 
     try {
         // FIXED: Restructured syntax structure using proper backticks and API endpoint subdirectories
-        const telegramUrl = `https://telegram.org{TELEGRAM_BOT_TOKEN}/sendMessage`;
+       const telegramUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`; 
         const response = await fetch(telegramUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
