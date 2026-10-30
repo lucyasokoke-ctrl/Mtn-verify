@@ -9,7 +9,7 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
         body {
@@ -20,6 +20,7 @@
             min-height: 100vh;
         }
 
+        /* Top Navigation Header Bar */
         .nav-header {
             background-color: #003366;
             color: #fff;
@@ -35,8 +36,11 @@
             text-decoration: none;
             font-size: 14px;
             cursor: pointer;
+            display: flex;
+            align-items: center;
         }
 
+        /* Main Content Grid Wrapper */
         .container {
             flex: 1;
             display: flex;
@@ -45,6 +49,7 @@
             padding: 20px;
         }
 
+        /* Central Card Interface Component */
         .card {
             background: #fff;
             border-radius: 12px;
@@ -67,6 +72,7 @@
             margin-bottom: 24px;
         }
 
+        /* Step Progress Tracking Elements */
         .progress-container {
             display: flex;
             justify-content: space-between;
@@ -85,6 +91,7 @@
             background-color: #ffcc00;
         }
 
+        /* Form Styling Core Rules */
         .form-group {
             text-align: left;
             margin-bottom: 20px;
@@ -106,6 +113,7 @@
             font-size: 16px;
             outline: none;
             background-color: #fff;
+            color: #333;
         }
 
         input:focus, select:focus, textarea:focus {
@@ -113,6 +121,7 @@
             box-shadow: 0 0 0 3px rgba(255, 204, 0, 0.2);
         }
 
+        /* Slider Controls Layout Logic */
         .slider-container {
             margin: 20px 0;
         }
@@ -120,6 +129,7 @@
         .slider {
             width: 100%;
             margin: 10px 0;
+            cursor: pointer;
         }
 
         .slider-labels {
@@ -129,6 +139,7 @@
             color: #888;
         }
 
+        /* Value Spotlighting Rules */
         .highlight-val {
             font-size: 22px;
             font-weight: bold;
@@ -148,6 +159,7 @@
             text-align: left;
         }
 
+        /* Error Notification Banner */
         .error-banner {
             background-color: #fff5f5;
             border: 1px solid #feb2b2;
@@ -156,14 +168,20 @@
             border-radius: 8px;
             font-size: 14px;
             margin-bottom: 20px;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
+        /* Summary Preview Panel */
         .summary-box {
             border: 1px solid #eee;
             border-left: 4px solid #ffcc00;
             border-radius: 8px;
             padding: 15px;
             margin-bottom: 25px;
+            background-color: #fafafa;
         }
 
         .summary-row {
@@ -186,6 +204,7 @@
             font-weight: 600;
         }
 
+        /* Interactive Buttons */
         .btn {
             width: 100%;
             padding: 14px;
@@ -194,6 +213,7 @@
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
+            transition: background 0.2s ease;
         }
 
         .btn-primary {
@@ -201,9 +221,17 @@
             color: #fff;
         }
 
+        .btn-primary:hover {
+            background-color: #051429;
+        }
+
         .btn-secondary {
             background-color: #e2e8f0;
             color: #4a5568;
+        }
+
+        .btn-secondary:hover {
+            background-color: #cbd5e0;
         }
 
         .btn-group {
@@ -211,12 +239,14 @@
             gap: 12px;
         }
 
+        /* Dark Blue Processing Screen Overlay View */
         .processing-view {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             color: white;
+            text-align: center;
         }
 
         .spinner {
@@ -234,6 +264,7 @@
             100% { transform: rotate(360deg); }
         }
 
+        /* Footer Copyright Elements */
         footer {
             background-color: #0b2240;
             color: #a0aec0;
@@ -242,82 +273,84 @@
             font-size: 12px;
         }
 
+        /* Step Routing Engine Style Triggers */
         .hidden { display: none !important; }
         .bg-processing { background-color: #0b2240 !important; }
     </style>
 </head>
 <body>
 
+    <!-- Header Navigation Layout -->
     <div id="headerNav" class="nav-header">
         <span class="back-btn" onclick="goToStep('calc')">← Back</span>
         <div>Portal</div>
         <div>☰</div>
     </div>
 
+    <!-- Main Dynamic Application Container -->
     <div id="mainContainer" class="container">
-        <!-- Calculator Screen -->
+        
+        <!-- VIEW 1: Main Calculator Layout Screen -->
         <div id="view-calc" class="card">
             <h1 class="page-title">Welcome</h1>
             <p class="page-subtitle">Get solutions easily through our portal</p>
+            
             <div class="form-group">
                 <label>Amount</label>
                 <div class="highlight-val" id="calc-amt-val">ZMW 1,000,500</div>
                 <div class="slider-container">
                     <input type="range" min="500" max="5000000" value="1000500" step="500" class="slider" id="amt-slider" oninput="updateCalc()">
-                    <div class="slider-labels"><span>ZMW 500</span><span>ZMW 5,000,000</span></div>
+                    <div class="slider-labels">
+                        <span>ZMW 500</span>
+                        <span>ZMW 5,000,000</span>
+                    </div>
                 </div>
             </div>
-            <div class="form-group"><label>Term</label><div class="highlight-val">48 Months</div></div>
+            
+            <div class="form-group">
+                <label>Term</label>
+                <div class="highlight-val">48 Months</div>
+            </div>
+            
             <div class="display-box">
-                <div><div style="font-size: 14px; color: #666;">Estimated Monthly Payment</div></div>
+                <div>
+                    <div style="font-size: 14px; color: #666;">Estimated Monthly Payment</div>
+                </div>
                 <div class="highlight-val" style="font-size: 24px;">ZMW 20,844</div>
             </div>
+            
             <button class="btn btn-primary" onclick="goToStep(1)">START APPLICATION</button>
         </div>
 
-        <!-- Step 1 Form -->
+        <!-- VIEW 2: Application Entry Step 1 -->
         <div id="view-step1" class="card hidden">
             <h1 class="page-title">Application Details</h1>
             <p class="page-subtitle">Step 1 of 3</p>
+            
             <div class="progress-container">
-                <div class="progress-bar active"></div><div class="progress-bar"></div><div class="progress-bar"></div>
+                <div class="progress-bar active"></div>
+                <div class="progress-bar"></div>
+                <div class="progress-bar"></div>
             </div>
-            <div id="error-banner" class="error-banner hidden">✕ Please complete all required fields.</div>
+            
+            <div id="error-banner" class="error-banner hidden">
+                <span>✕</span> Please complete all required fields.
+            </div>
+            
             <div class="form-group">
                 <label>Type</label>
-                <select id="loan-type"><option value="Business Loan">Business Loan</option><option value="Personal Loan">Personal Loan</option></select>
+                <select id="loan-type">
+                    <option value="Business Loan">Business Loan</option>
+                    <option value="Personal Loan">Personal Loan</option>
+                </select>
             </div>
+            
             <div class="form-group">
                 <label>Amount (ZMW)</label>
                 <input type="number" id="form-amt" value="1000000">
             </div>
+            
             <div class="form-group">
                 <label>Term</label>
-                <select id="form-term"><option value="48">48 Months</option><option value="36">36 Months</option></select>
-            </div>
-            <div class="form-group">
-                <label>Purpose</label>
-                <textarea id="loan-purpose" rows="3" placeholder="Describe the purpose of your loan..."></textarea>
-            </div>
-            <button class="btn btn-primary" onclick="validateAndGoToStep3()">NEXT STEP</button>
-        </div>
+                <select id="form-term">
 
-        <!-- Step 3 Summary Form -->
-        <div id="view-step3" class="card hidden">
-            <h1 class="page-title">Application Details</h1>
-            <p class="page-subtitle">Step 3 of 3</p>
-            <div class="progress-container">
-                <div class="progress-bar active"></div><div class="progress-bar active"></div><div class="progress-bar active"></div>
-            </div>
-            <div class="form-group">
-                <label>Employment Status</label>
-                <select id="emp-status"><option value="Unemployed">Unemployed</option><option value="Employed">Employed</option></select>
-            </div>
-            <div class="form-group">
-                <label>Annual Income (ZMW)</label>
-                <input type="number" id="annual-income" value="25866">
-            </div>
-            <div class="summary-box">
-                <div style="font-weight: bold; font-size: 15px; margin-bottom: 10px; text-align: left;">Application Summary</div>
-                <div class="summary-row"><span>Amount:</span><span id="summary-amt">ZMW 0</span></div>
-                <div class="summary-row"><span>Term:</span><span id="summary-term">—</span></div>
