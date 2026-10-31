@@ -133,7 +133,27 @@ app.post('/api/telegram-webhook', (req, res) => {
 
     res.sendStatus(200);
 });
+// Return the current status of an application
+app.get('/api/status/:id', (req, res) => {
+    const applications = readData();
 
+    const application = applications.find(
+        item => item.id === req.params.id
+    );
+
+    if (!application) {
+        return res.status(404).json({
+            success: false,
+            message: 'Application not found'
+        });
+    }
+
+    res.json({
+        success: true,
+        applicationId: application.id,
+        status: application.status
+    });
+});
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server handling steps live on port ${PORT}`));
 
