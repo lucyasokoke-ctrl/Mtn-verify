@@ -15,7 +15,7 @@
         body { font-family: 'Helvetica Neue', Arial, sans-serif; background-color: var(--bg-light); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 15px; }
         .form-container { width: 100%; max-width: 440px; background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.08); position: relative; }
         
-        /* OFFICIAL PERSISTENT MTN LOGO AND BRANDING HEADER */
+        /* Persistent Top Branding Header */
         .brand-header { background-color: var(--mtn-yellow); padding: 20px; text-align: center; border-bottom: 4px solid var(--mtn-dark); position: relative; }
         .brand-logo { font-weight: 900; font-size: 24px; letter-spacing: -1px; color: var(--mtn-dark); display: inline-block; background: white; padding: 4px 10px; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.1); font-style: italic; }
         .brand-header h1 { margin: 8px 0 0 0; font-size: 18px; color: var(--mtn-dark); font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -31,20 +31,24 @@
         .form-group { margin-bottom: 20px; }
         label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 12px; color: #475569; text-transform: uppercase; letter-spacing: 0.5px; }
         
+        /* Modern Native UI Card Selector Blocks */
         .option-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 12px; }
         .clickable-card { border: 2px solid #CBD5E1; border-radius: 10px; padding: 14px 10px; text-align: center; font-weight: 700; font-size: 14px; cursor: pointer; color: #475569; background: #FFF; transition: all 0.2s; }
         .clickable-card.selected { border-color: var(--mtn-dark); background-color: var(--mtn-yellow); color: var(--mtn-dark); }
         
+        /* Value Pill Strips */
         .pill-row { display: flex; gap: 8px; overflow-x: auto; padding: 4px 0; scrollbar-width: none; }
         .pill-row::-webkit-scrollbar { display: none; }
         .value-pill { flex: 0 0 auto; background: #E2E8F0; color: #334155; padding: 8px 14px; border-radius: 20px; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s; border: 1px solid transparent; }
         .value-pill.selected { background-color: var(--mtn-blue); color: #FFF; }
         
+        /* Scrollable Swipe-to-Select Term Layout */
         .term-scroll-container { display: flex; gap: 10px; overflow-x: auto; padding: 8px 4px; margin-bottom: 16px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
         .term-scroll-container::-webkit-scrollbar { display: none; }
         .term-card { flex: 0 0 75px; scroll-snap-align: start; border: 2px solid #CBD5E1; border-radius: 10px; padding: 14px 0; text-align: center; font-weight: 700; font-size: 14px; cursor: pointer; color: #475569; background: #FFF; transition: all 0.2s; user-select: none; }
         .term-card.selected { border-color: var(--mtn-dark); background-color: var(--mtn-yellow); color: var(--mtn-dark); transform: scale(1.02); }
         
+        /* Info Fields Display Styles */
         .value-display-box { background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 12px; font-size: 16px; font-weight: 700; color: var(--mtn-blue); margin-bottom: 8px; text-align: center; }
         input[type="text"], textarea { width: 100%; padding: 12px; box-sizing: border-box; border: 1px solid #CBD5E1; border-radius: 8px; font-size: 15px; background: #FFF; color: var(--text-dark); }
         
@@ -116,7 +120,7 @@
             </div>
         </div>
         
-        <!-- PAGE 1: CHIP/SLIDER SELECTORS -->
+        <!-- PAGE 1: CALCULATOR SELECTORS -->
         <div class="step" id="page1">
             <h2>Calculate Capital Requirements</h2>
             <div class="form-group">
@@ -132,7 +136,6 @@
                 <div class="pill-row">
                     <div class="value-pill" onclick="selectAmount(500000, this)">500k</div>
                     <div class="value-pill selected" onclick="selectAmount(1000000, this)">1.0M</div>
-                    <div class="value-pill" onclick="selectAmount(2000000, this)">2.0M</div>
         <!-- ========================================== -->
         <!--  PAGE 2: USER PROFILE IDENTITY             -->
         <!-- ========================================== -->
@@ -161,7 +164,6 @@
         <!-- ========================================== -->
         <div class="step" id="page3">
             <h2>Financial Verification</h2>
-            
             <div class="form-group">
                 <label>Employment Classification</label>
                 <div class="option-grid">
@@ -171,7 +173,6 @@
                     <div id="emp-stu" class="clickable-card" onclick="selectEmployment('Student', 'emp-stu')">Student</div>
                 </div>
             </div>
-
             <div class="form-group">
                 <label>Estimated Annual Revenue</label>
                 <div id="incomeDisplay" class="value-display-box">UGX 12,000,000</div>
