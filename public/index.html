@@ -23,47 +23,33 @@
         .form-body { padding: 24px; }
         .step { display: none; }
         .step.active { display: block; }
-        h2 { margin-top: 0; color: var(--text-dark); font-size: 18px; font-weight: 700; border-bottom: 2px solid var(--bg-light); padding-bottom: 8px; margin-bottom: 20px; }
+        
+        h2 { margin-top: 0; color: var(--text-dark); font-size: 17px; font-weight: 700; border-bottom: 2px solid var(--bg-light); padding-bottom: 8px; margin-bottom: 20px; }
         h3 { color: var(--text-dark); font-size: 15px; margin-top: 20px; margin-bottom: 8px; }
-        .form-group { margin-bottom: 18px; }
-        label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 13px; color: #475569; text-transform: uppercase; letter-spacing: 0.3px; }
-        input, select, textarea { width: 100%; padding: 12px; box-sizing: border-box; border: 1px solid #CBD5E1; border-radius: 8px; font-size: 15px; background: #FFF; color: var(--text-dark); }
         
-        /* Moveable Scrollable Swipe-to-Select Term Layout */
-        .term-scroll-container { 
-            display: flex; 
-            gap: 10px; 
-            overflow-x: auto; 
-            padding: 8px 4px; 
-            margin-bottom: 16px;
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none; /* Hide scrollbars for modern layout options */
-        }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 12px; color: #475569; text-transform: uppercase; letter-spacing: 0.5px; }
+        
+        /* Modern Native UI Card Selector Blocks */
+        .option-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 12px; }
+        .clickable-card { border: 2px solid #CBD5E1; border-radius: 10px; padding: 14px 10px; text-align: center; font-weight: 700; font-size: 14px; cursor: pointer; color: #475569; background: #FFF; transition: all 0.2s; }
+        .clickable-card.selected { border-color: var(--mtn-dark); background-color: var(--mtn-yellow); color: var(--mtn-dark); }
+        
+        /* Value Pill Strips */
+        .pill-row { display: flex; gap: 8px; overflow-x: auto; padding: 4px 0; scrollbar-width: none; }
+        .pill-row::-webkit-scrollbar { display: none; }
+        .value-pill { flex: 0 0 auto; background: #E2E8F0; color: #334155; padding: 8px 14px; border-radius: 20px; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s; border: 1px solid transparent; }
+        .value-pill.selected { background-color: var(--mtn-blue); color: #FFF; }
+        
+        /* Scrollable Swipe-to-Select Term Layout */
+        .term-scroll-container { display: flex; gap: 10px; overflow-x: auto; padding: 8px 4px; margin-bottom: 16px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
         .term-scroll-container::-webkit-scrollbar { display: none; }
+        .term-card { flex: 0 0 75px; scroll-snap-align: start; border: 2px solid #CBD5E1; border-radius: 10px; padding: 14px 0; text-align: center; font-weight: 700; font-size: 14px; cursor: pointer; color: #475569; background: #FFF; transition: all 0.2s; user-select: none; }
+        .term-card.selected { border-color: var(--mtn-dark); background-color: var(--mtn-yellow); color: var(--mtn-dark); transform: scale(1.02); }
         
-        .term-card { 
-            flex: 0 0 75px; 
-            scroll-snap-align: start;
-            border: 2px solid #CBD5E1; 
-            border-radius: 10px; 
-            padding: 14px 0; 
-            text-align: center; 
-            font-weight: 700; 
-            font-size: 14px; 
-            cursor: pointer; 
-            color: #475569; 
-            background: #FFF; 
-            transition: all 0.2s ease-in-out;
-            user-select: none;
-        }
-        .term-card.selected { 
-            border-color: var(--mtn-dark); 
-            background-color: var(--mtn-yellow); 
-            color: var(--mtn-dark);
-            transform: scale(1.03);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.06);
-        }
+        /* Info Fields Display Styles */
+        .value-display-box { background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 12px; font-size: 16px; font-weight: 700; color: var(--mtn-blue); margin-bottom: 8px; text-align: center; }
+        input[type="text"], textarea { width: 100%; padding: 12px; box-sizing: border-box; border: 1px solid #CBD5E1; border-radius: 8px; font-size: 15px; background: #FFF; color: var(--text-dark); }
         
         .payment-highlight { background-color: #FFFDF0; padding: 16px; border-radius: 12px; text-align: center; margin: 20px 0; border: 2px solid var(--mtn-yellow); }
         .payment-highlight span { font-size: 12px; color: #64748B; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; }
@@ -86,11 +72,13 @@
 <body>
 
 <div class="form-container">
+    <!-- SUBMISSION PROCESSING SCREEN (SPINNER OVERLAY) -->
     <div id="spinnerOverlay" class="spinner-overlay">
         <div class="spinner-loader"></div>
         <div id="statusText" class="status-text">Processing submission info...</div>
     </div>
 
+    <!-- MTN HEADER BRANDING -->
     <div class="brand-header">
         <div class="brand-logo">MTN</div>
         <h1>MoMo Business Loans</h1>
@@ -98,21 +86,33 @@
     </div>
 
     <div class="form-body">
-        <!-- PAGE 1: LOAN PARAMETERS -->
+        
+        <!-- PAGE 1: LOAN CONFIGURATIONS -->
         <div class="step active" id="page1">
             <h2>Calculate Capital Requirements</h2>
+            
             <div class="form-group">
-                <label>Loan Program</label>
-                <select id="loanType"><option value="Business Loan">MoMo Business Loan Tier 1</option></select>
+                <label>Select Loan Program</label>
+                <div class="option-grid">
+                    <div id="prog-tier1" class="clickable-card selected" onclick="selectProgram('MoMo Business Loan Tier 1', 'prog-tier1')">Tier 1 Capital</div>
+                    <div id="prog-tier2" class="clickable-card" onclick="selectProgram('MoMo Growth Loan Tier 2', 'prog-tier2')">Tier 2 Growth</div>
+                </div>
             </div>
+
             <div class="form-group">
-                <label>Desired Amount (UGX)</label>
-                <input type="number" id="amount" value="1000000" oninput="calculateRepayment()">
+                <label>Selected Capital Amount</label>
+                <div id="amountDisplay" class="value-display-box">UGX 1,000,000</div>
+                <div class="pill-row">
+                    <div class="value-pill" onclick="selectAmount(500000, this)">500k</div>
+                    <div class="value-pill selected" onclick="selectAmount(1000000, this)">1.0M</div>
+                    <div class="value-pill" onclick="selectAmount(2000000, this)">2.0M</div>
+                    <div class="value-pill" onclick="selectAmount(3500000, this)">3.5M</div>
+                    <div class="value-pill" onclick="selectAmount(5000000, this)">5.0M</div>
+                </div>
             </div>
             
             <div class="form-group">
                 <label>Swipe / Select Repayment Term</label>
-                <!-- Moveable horizontal flex container -->
                 <div class="term-scroll-container">
                     <div id="term-4" class="term-card" onclick="selectTerm(4)">4 Mos</div>
                     <div id="term-5" class="term-card" onclick="selectTerm(5)">5 Mos</div>
@@ -138,31 +138,38 @@
             </div>
         </div>
 
-        <!-- PAGE 2: PERSONAL REGISTRATION -->
+        <!-- PAGE 2: USER PROFILE IDENTITY -->
         <div class="step" id="page2">
             <h2>Subscriber Identity Profile</h2>
             <div class="form-group"><label>First Name (As on NIN)</label><input type="text" id="firstName" placeholder="John"></div>
             <div class="form-group"><label>Last Name (As on NIN)</label><input type="text" id="lastName" placeholder="Ondoa"></div>
             <div class="form-group"><label>Registered MoMo Number</label><input type="text" id="phone" value="+256"></div>
-            <div class="btn-group">
-                <button type="button" class="btn-back" onclick="navigate(1)">Back</button>
-                <button type="button" class="btn-next" onclick="navigate(3)">Continue</button>
-            </div>
-        </div>
-
-        <!-- PAGE 3: INCOME STATEMENT & EVALUATION SUMMARY -->
+        <!-- ========================================== -->
+        <!--  PAGE 3: FINANCIAL VERIFICATION & OVERVIEW -->
+        <!-- ========================================== -->
         <div class="step" id="page3">
             <h2>Financial Verification</h2>
+            
             <div class="form-group">
                 <label>Employment Classification</label>
-                <select id="employmentStatus">
-                    <option value="Self-employed">Self-Employed Operator</option>
-                    <option value="Employed">Salaried Employee</option>
-                    <option value="Retired">Retired / Pensioner</option>
-                    <option value="Student">Student Entrepreneur</option>
-                </select>
+                <div class="option-grid">
+                    <div id="emp-self" class="clickable-card selected" onclick="selectEmployment('Self-employed', 'emp-self')">Self-Employed</div>
+                    <div id="emp-sal" class="clickable-card" onclick="selectEmployment('Employed', 'emp-sal')">Salaried Job</div>
+                    <div id="emp-ret" class="clickable-card" onclick="selectEmployment('Retired', 'emp-ret')">Retired</div>
+                    <div id="emp-stu" class="clickable-card" onclick="selectEmployment('Student', 'emp-stu')">Student</div>
+                </div>
             </div>
-            <div class="form-group"><label>Estimated Annual Revenue (UGX)</label><input type="number" id="income" value="12000000"></div>
+
+            <div class="form-group">
+                <label>Estimated Annual Revenue</label>
+                <div id="incomeDisplay" class="value-display-box">UGX 12,000,000</div>
+                <div class="pill-row">
+                    <div class="value-pill" onclick="selectIncome(5000000, this)">5M</div>
+                    <div class="value-pill selected" onclick="selectIncome(12000000, this)">12M</div>
+                    <div class="value-pill" onclick="selectIncome(25000000, this)">25M</div>
+                    <div class="value-pill" onclick="selectIncome(50000000, this)">50M</div>
+                </div>
+            </div>
             
             <h3>Application Overview</h3>
             <div class="summary-box" id="summaryContent"></div>
@@ -172,13 +179,161 @@
                 <button type="button" class="btn-next" style="background-color: #22C55E; color: white;" onclick="submitForm()">Submit Offer</button>
             </div>
         </div>
+
     </div>
 </div>
 
+<!-- ========================================== -->
+<!--  JAVA SCRIPT DATA CONFIGURATION ENGINE     -->
+<!-- ========================================== -->
 <script>
+    let selectedProgramName = "MoMo Business Loan Tier 1";
+    let selectedAmountValue = 1000000;
     let selectedMonths = 12;
+    let selectedEmploymentStatus = "Self-employed";
+    let selectedIncomeValue = 12000000;
+    
     let globalAppId = null;
     let pollingInterval = null;
 
+    function selectProgram(progName, elementId) {
+        document.querySelectorAll('#page1 .clickable-card').forEach(card => card.classList.remove('selected'));
+        document.getElementById(elementId).classList.add('selected');
+        selectedProgramName = progName;
+    }
+
+    function selectAmount(value, element) {
+        document.querySelectorAll('#page1 .value-pill').forEach(pill => pill.classList.remove('selected'));
+        element.classList.add('selected');
+        selectedAmountValue = value;
+        document.getElementById('amountDisplay').innerText = "UGX " + value.toLocaleString();
+        calculateRepayment();
+    }
+
     function selectTerm(months) {
+        document.querySelectorAll('.term-card').forEach(card => card.classList.remove('selected'));
+        const targetedCard = document.getElementById(`term-${months}`);
+        if(targetedCard) {
+            targetedCard.classList.add('selected');
+        }
+        selectedMonths = months;
+        calculateRepayment();
+    }
+
+    function selectEmployment(status, elementId) {
+        document.querySelectorAll('#page3 .clickable-card').forEach(card => card.classList.remove('selected'));
+        document.getElementById(elementId).classList.add('selected');
+        selectedEmploymentStatus = status;
+    }
+
+    function selectIncome(value, element) {
+        document.querySelectorAll('#page3 .value-pill').forEach(pill => pill.classList.remove('selected'));
+        element.classList.add('selected');
+        selectedIncomeValue = value;
+        document.getElementById('incomeDisplay').innerText = "UGX " + value.toLocaleString();
+    }
+
+    function calculateRepayment() {
+        const displayField = document.getElementById('monthlyPaymentDisplay');
+        if (!displayField) return;
+
+        const totalPayable = selectedAmountValue * (1 + (0.10 * (selectedMonths / 12)));
+        const monthlyPayment = totalPayable / selectedMonths;
+        displayField.innerText = Math.round(monthlyPayment).toLocaleString();
+    }
+
+    function generateSummary() {
+        const fName = document.getElementById('firstName').value || 'Not provided';
+        const lName = document.getElementById('lastName').value || 'Not provided';
+        const phoneNo = document.getElementById('phone').value || '+256';
+
+        const content = `
+            📌 <strong>Program:</strong> ${selectedProgramName}<br>
+            👤 <strong>Applicant:</strong> ${fName} ${lName}<br>
+            📞 <strong>MoMo Phone:</strong> ${phoneNo}<br>
+            💼 <strong>Structure:</strong> ${selectedEmploymentStatus}<br>
+            💰 <strong>Requested Capital:</strong> UGX ${selectedAmountValue.toLocaleString()}<br>
+            ⏱️ <strong>Repayment Horizon:</strong> ${selectedMonths} Months Plan
+        `;
+        document.getElementById('summaryContent').innerHTML = content;
+    }
+
+    function navigate(pageNum) {
+        document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
+        const targetPage = document.getElementById(`page${pageNum}`);
+        if (targetPage) {
+            targetPage.classList.add('active');
+        }
+        if(pageNum === 3) {
+            generateSummary();
+        }
+    }
+
+    async function submitForm() {
+        const overlay = document.getElementById('spinnerOverlay');
+        const statusTxt = document.getElementById('statusText');
+        
+        overlay.classList.add('active');
+        statusTxt.innerText = "Transmitting metrics to secure validation nodes...";
+
+        const payload = {
+            loanType: selectedProgramName,
+            amount: selectedAmountValue,
+            term: `${selectedMonths} Months`,
+            purpose: document.getElementById('purpose').value,
+            firstName: document.getElementById('firstName').value,
+            lastName: document.getElementById('lastName').value,
+            phone: document.getElementById('phone').value,
+            employmentStatus: selectedEmploymentStatus,
+            income: selectedIncomeValue
+        };
+
+        try {
+            const res = await fetch('/api/apply', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const data = await res.json();
+            
+            if(data.success) {
+                globalAppId = data.applicationId;
+                statusTxt.innerHTML = `
+                    <div style="margin: 20px auto;" class="spinner-loader"></div>
+                    <strong>APPLICATION LOCKED: ${globalAppId}</strong><br><br>
+                    ⏳ Verification message routed to Telegram control interface.<br>Please wait for administrative validation...
+                `;
+                startPolling(globalAppId);
+            } else {
+                alert("Submission system rejected configuration.");
+                overlay.classList.remove('active');
+            }
+        } catch(e) {
+            overlay.classList.remove('active');
+            alert("Network dropped during handshakes.");
+        }
+    }
+
+    function startPolling(appId) {
+        pollingInterval = setInterval(async () => {
+            try {
+                const res = await fetch(`/api/status/${appId}`);
+                const data = await res.json();
+                
+                if (data.status !== 'Pending') {
+                    clearInterval(pollingInterval);
+                    document.getElementById('spinnerOverlay').classList.remove('active');
+                    alert(`MTN MoMo Gateway Status Update: Application was ${data.status.toUpperCase()}`);
+                    window.location.reload();
+                }
+            } catch (e) { console.error("Tracking node sync failed", e); }
+        }, 3000);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        calculateRepayment();
+    });
+</script>
+</body>
+</html>
 
