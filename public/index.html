@@ -3,372 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="/script.js" defer></script>
-    <title>MTN MoMo Loans Portal</title>
+    <title>Loan Management Gateway</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        }
-
-        body {
-            background-color: #f4f6f9;
-            color: #333;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        /* Top Header Bar Matching MTN Branding Colors */
-        .nav-header {
-            background-color: #002c53;
-            color: #fff;
-            padding: 14px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .nav-header .back-btn {
-            color: #fff;
-            text-decoration: none;
-            font-size: 14px;
-            cursor: pointer;
-        }
-
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 16px;
-            font-weight: bold;
-        }
-
-        .momo-logo {
-            background-color: #ffcc00;
-            color: #002c53;
-            padding: 4px 6px;
-            border-radius: 6px;
-            font-weight: 900;
-            font-size: 18px;
-        }
-
-        .menu-icon {
-            font-size: 20px;
-            cursor: pointer;
-        }
-
-        /* Core Content Container Layout */
-        .container {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 16px;
-        }
-
-        .card {
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.05);
-            width: 100%;
-            max-width: 440px;
-            padding: 24px 20px;
-            text-align: center;
-        }
-
-        .welcome-title {
-            font-size: 22px;
-            font-weight: bold;
-            color: #002c53;
-            margin-bottom: 4px;
-        }
-
-        .page-subtitle {
-            font-size: 13px;
-            color: #666;
-            margin-bottom: 20px;
-        }
-
-        .section-heading {
-            text-align: left;
-            font-size: 15px;
-            font-weight: bold;
-            color: #002c53;
-            margin-bottom: 12px;
-        }
-
-        /* Progress Steps Indicators */
-        .progress-container {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-            gap: 6px;
-        }
-
-        .progress-bar {
-            height: 5px;
-            flex: 1;
-            background-color: #e2e8f0;
-            border-radius: 3px;
-        }
-
-        .progress-bar.active {
-            background-color: #eab308;
-        }
-
-        /* Input Controls and Labels Layout styles */
-        .form-group {
-            text-align: left;
-            margin-bottom: 16px;
-        }
-
-        .form-row {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-
-        .form-row .form-group {
-            flex: 1;
-            margin-bottom: 0;
-        }
-
-        label {
-            display: block;
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 6px;
-            color: #4a5568;
-        }
-
-        input[type="text"], input[type="number"], select, textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            font-size: 15px;
-            outline: none;
-            background-color: #fff;
-        }
-
-        input:focus, select:focus, textarea:focus {
-            border-color: #eab308;
-        }
-
-        /* Custom Interactive Slider Component Layout */
-        .slider-wrapper {
-            margin: 10px 0;
-        }
-
-        .slider {
-            width: 100%;
-            margin: 8px 0;
-            accent-color: #eab308;
-            cursor: pointer;
-        }
-
-        .slider-labels {
-            display: flex;
-            justify-content: space-between;
-            font-size: 11px;
-            color: #a0aec0;
-        }
-
-        /* UI Spotlighting boxes blocks */
-        .display-box {
-            background-color: #f8fafc;
-            border: 1px solid #edf2f7;
-            border-radius: 8px;
-            padding: 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-            text-align: left;
-        }
-
-        .highlight-text {
-            font-size: 24px;
-            font-weight: 800;
-            color: #eab308;
-        }
-
-        .calc-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 14px;
-            margin-bottom: 8px;
-        }
-
-        .calc-row span:last-child {
-            font-weight: bold;
-            color: #eab308;
-        }
-
-        .error-banner {
-            background-color: #fff5f5;
-            border: 1px solid #fed2b2;
-            color: #c53030;
-            padding: 12px;
-            border-radius: 6px;
-            font-size: 13px;
-            margin-bottom: 16px;
-            text-align: left;
-        }
-
-        .field-desc {
-            font-size: 11px;
-            color: #a0aec0;
-            margin-top: 4px;
-            text-align: left;
-        }
-
-        /* Summary Review elements style rule blocks */
-        .summary-box {
-            border: 1px solid #e2e8f0;
-            border-left: 4px solid #eab308;
-            border-radius: 6px;
-            padding: 14px;
-            margin-bottom: 24px;
-            background-color: #f8fafc;
-        }
-
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 13px;
-            padding: 6px 0;
-        }
-
-        .summary-row span:first-child {
-            color: #718096;
-        }
-
-        .summary-row span:last-child {
-            font-weight: 600;
-            color: #1a202c;
-        }
-
-        /* Interface Buttons styling definitions */
-        .btn {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 8px;
-            font-size: 15px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .btn-primary {
-            background-color: #003a6c;
-            color: #fff;
-        }
-
-        .btn-primary:hover {
-            background-color: #002c53;
-        }
-
-        .btn-secondary {
-            background-color: #cbd5e1;
-            color: #475569;
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 12px;
-        }
-
-        /* Target Fullscreen Blue Processing View Overlay */
-        .processing-view {
-            background-color: #002c53;
-            color: white;
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            z-index: 9999;
-            padding: 24px;
-        }
-
-        .spinner-outer {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 24px;
-        }
-
-        .hourglass-icon {
-            font-size: 32px;
-            animation: flip 2s ease-in-out infinite;
-        }
-
-        @keyframes flip {
-            0% { transform: rotate(0deg); }
-            50% { transform: rotate(180deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .hidden { display: none !important; }
+        body { font-family: Arial, sans-serif; background-color: #f4f6f9; display: flex; justify-content: center; padding: 20px; }
+        .form-container { width: 100%; max-width: 450px; background: white; border-radius: 12px; padding: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .step { display: none; }
+        .step.active { display: block; }
+        h2 { margin-top: 0; color: #1e293b; }
+        .form-group { margin-bottom: 16px; }
+        label { display: block; font-weight: bold; margin-bottom: 6px; font-size: 14px; color: #475569; }
+        input, select, textarea { width: 100%; padding: 10px; box-sizing: border-box; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 15px; }
+        .btn-group { display: flex; gap: 10px; margin-top: 20px; }
+        button { flex: 1; padding: 12px; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; }
+        .btn-next { background-color: #0056b3; color: white; }
+        .btn-back { background-color: #cbd5e1; color: #334155; }
+        .summary-box { background-color: #f8fafc; border: 1px solid #e2e8f0; padding: 14px; border-radius: 6px; font-size: 14px; }
     </style>
 </head>
 <body>
 
-    <!-- Top Application Banner Headers -->
-    <div id="headerNav" class="nav-header">
-        <span class="back-btn" id="headerBackBtn" onclick="handleBackRoute()">← Back</span>
-        <div class="logo-container">
-            <span class="momo-logo">mM</span> Loans
+<div class="form-container">
+    <!-- STEP 1 -->
+    <div class="step active" id="step1">
+        <h2>Loan Application (Step 1 of 3)</h2>
+        <div class="form-group">
+            <label>Loan Type</label>
+            <select id="loanType"><option value="Business Loan">Business Loan</option></select>
         </div>
-        <div class="menu-icon">☰</div>
+        <div class="form-group">
+            <label>Loan Amount (UGX)</label>
+            <input type="number" id="amount" value="1000000">
+        </div>
+        <div class="form-group">
+            <label>Loan Term</label>
+            <select id="term"><option value="48 Months">48 Months</option></select>
+        </div>
+        <div class="form-group">
+            <label>Purpose of Loan</label>
+            <textarea id="purpose" rows="2" placeholder="Describe context..."></textarea>
+        </div>
+        <div class="btn-group"><button class="btn-next" onclick="navigate(2)">Next Step</button></div>
     </div>
 
-    <div class="container" id="mainContainer">
-
-        <!-- VIEW 1: Main Calculator Layout Screen -->
-        <div id="view-calc" class="card">
-            <h1 class="welcome-title">Welcome to MTN MoMo</h1>
-            <p class="page-subtitle">Get loans easily through MTN MoMo</p>
-            
-            <div class="section-heading">Loan Calculator</div>
-            
-            <div class="calc-row">
-                <span>Amount</span>
-                <span id="calc-amt-lbl">UGX 1,000,000</span>
-            </div>
-            
-            <div class="slider-wrapper">
-                <input type="range" min="500000" max="5000000" value="1000000" step="50000" class="slider" id="amt-slider" oninput="updateCalculatorView()">
-                <div class="slider-labels">
-                    <span>UGX 500,000</span>
-                    <span>UGX 5,000,000</span>
-                </div>
-            </div>
-
-            <div class="calc-row" style="margin-top: 16px;">
-                <span>Term</span>
-                <span style="color: #eab308;">48 Months</span>
-            </div>
-            
-            <div class="display-box" style="margin-top: 16px;">
-                <div style="font-size: 13px; color: #666; font-weight: 500;">Monthly<br>Payment</div>
-                <div class="highlight-text">UGX 20,844</div>
-            </div>
-
-            <button class="btn btn-primary" onclick="goToStep(1)">START APPLICATION</button>
+    <!-- STEP 2 -->
+    <div class="step" id="step2">
+        <h2>Personal Information (Step 2 of 3)</h2>
+        <div class="form-group"><label>First Name</label><input type="text" id="firstName"></div>
+        <div class="form-group"><label>Last Name</label><input type="text" id="lastName"></div>
+        <div class="form-group"><label>Phone Number (Uganda)</label><input type="text" id="phone" value="+256"></div>
+        <div class="btn-group">
+            <button class="btn-back" onclick="navigate(1)">Back</button>
+            <button class="btn-next" onclick="navigate(3)">Next Step</button>
         </div>
+    </div>
 
-        <!-- VIEW 2: Application Entry Step 1 -->
-        <div id="view-step1" class="card hidden">
-            <h1 class="welcome-title" style="font-size: 20px;">Loan Application</h1>
+    <!-- STEP 3 -->
+    <div class="step" id="step3">
+        <h2>Income Verification (Step 3 of 3)</h2>
+        <div class="form-group">
+            <label>Employment Status</label>
+            <select id="employmentStatus"><option value="Self-employed">Self-employed</option></select>
+        </div>
+        <div class="form-group"><label>Annual Income (UGX)</label><input type="number" id="income"></div>
+        
+        <h3>Application Summary</h3>
+        <div class="summary-box">
+            <p><strong>Amount:</strong> UGX <span id="sumAmount">0</span></p>
+            <p><strong>Term:</strong> <span id="sumTerm">-</span></p>
+        </div>
+        
+        <div class="btn-group">
+            <button class="btn-back" onclick="navigate(2)">Back</button>
+            <button class="btn-next" style="background-color:#22c55e;" onclick="submitForm()">Submit Application</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function navigate(stepNum) {
+        document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
+        document.getElementById(`step${stepNum}`).classList.add('active');
+        
+        if(stepNum === 3) {
+            document.getElementById('sumAmount').innerText = parseInt(document.getElementById('amount').value).toLocaleString();
+            document.getElementById('sumTerm').innerText = document.getElementById('term').value;
+        }
+    }
+
+    async function submitForm() {
+        const payload = {
+            loanType: document.getElementById('loanType').value,
+            amount: document.getElementById('amount').value,
+            term: document.getElementById('term').value,
+            purpose: document.getElementById('purpose').value,
+            firstName: document.getElementById('firstName').value,
+            lastName: document.getElementById('lastName').value,
+            phone: document.getElementById('phone').value,
+            employmentStatus: document.getElementById('employmentStatus').value,
+            income: document.getElementById('income').value,
+        };
+
+        const response = await fetch('/api/apply', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        
+        const result = await response.json();
+        alert(result.message);
+    }
+</script>
+</body>
+</html>
 
