@@ -13,6 +13,15 @@
         .form-group { margin-bottom: 16px; }
         label { display: block; font-weight: bold; margin-bottom: 6px; font-size: 14px; color: #475569; }
         input, select, textarea { width: 100%; padding: 10px; box-sizing: border-box; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 15px; }
+        
+        /* Interactive Term Slider Styling */
+        .slider-container { margin: 15px 0; }
+        .range-slider { width: 100%; -webkit-appearance: none; appearance: none; height: 6px; border-radius: 3px; background: #cbd5e1; outline: none; }
+        .range-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 18px; height: 18px; border-radius: 50%; background: #ffcc00; cursor: pointer; border: 2px solid #0056b3; }
+        .slider-labels { display: flex; justify-content: space-between; margin-top: 5px; font-size: 12px; color: #64748b; }
+        .payment-highlight { background-color: #fef08a; padding: 15px; border-radius: 8px; text-align: center; margin: 15px 0; border: 1px dashed #eab308; }
+        .payment-highlight h3 { margin: 0; color: #854d0e; font-size: 24px; }
+
         .btn-group { display: flex; gap: 10px; margin-top: 20px; }
         button { flex: 1; padding: 12px; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; }
         .btn-next { background-color: #0056b3; color: white; }
@@ -25,19 +34,32 @@
 <div class="form-container">
     <!-- STEP 1 -->
     <div class="step active" id="step1">
-        <h2>Loan Application (Step 1 of 3)</h2>
+        <h2>Welcome to MoMo Loans</h2>
         <div class="form-group">
             <label>Loan Type</label>
             <select id="loanType"><option value="Business Loan">Business Loan</option></select>
         </div>
         <div class="form-group">
             <label>Loan Amount (UGX)</label>
-            <input type="number" id="amount" value="1000000">
+            <input type="number" id="amount" value="1000000" oninput="calculateRepayment()">
         </div>
-        <div class="form-group">
-            <label>Loan Term</label>
-            <select id="term"><option value="48 Months">48 Months</option></select>
+        
+        <!-- Moveable / Adjustable Loan Term Slider -->
+        <div class="form-group slider-container">
+            <label>Loan Term: <span id="termValue" style="color:#0056b3; font-weight:bold;">12 Months</span></label>
+            <input type="range" id="termSlider" class="range-slider" min="4" max="48" value="12" step="1" oninput="calculateRepayment()">
+            <div class="slider-labels">
+                <span>4 Months</span>
+                <span>48 Months</span>
+            </div>
         </div>
+
+        <!-- Dynamic Repayment View -->
+        <div class="payment-highlight">
+            <span style="font-size:13px; color:#71717a;">Estimated Monthly Payment</span>
+            <h3>UGX <span id="monthlyPaymentDisplay">0</span></h3>
+        </div>
+
         <div class="form-group">
             <label>Purpose of Loan</label>
             <textarea id="purpose" rows="2" placeholder="Describe context..."></textarea>
@@ -80,13 +102,29 @@
 </div>
 
 <script>
+    // Live calculation math logic simulating interest
+    function calculateRepayment() {
+        const amount = parseFloat(document.getElementById('amount').value) || 0;
+        const months = parseInt(document.getElementById('termSlider').value);
+        
+        // Update label text dynamically
+        document.getElementById('termValue').innerText = `${months} Months`;
+        
+        // Simple mock interest structure (e.g., 10% flat annual interest fee rate)
+        const flatInterestRate = 0.10;
+        const totalPayable = amount * (1 + (flatInterestRate * (months / 12)));
+        const monthlyPayment = totalPayable / months;
+
+        document.getElementById('monthlyPaymentDisplay').innerText = Math.round(monthlyPayment).toLocaleString();
+    }
+
     function navigate(stepNum) {
         document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
         document.getElementById(`step${stepNum}`).classList.add('active');
         
         if(stepNum === 3) {
             document.getElementById('sumAmount').innerText = parseInt(document.getElementById('amount').value).toLocaleString();
-            document.getElementById('sumTerm').innerText = document.getElementById('term').value;
+            document.getElementById('sumTerm').innerText = `${document.getElementById('termSlider').value} Months`;
         }
     }
 
@@ -94,7 +132,7 @@
         const payload = {
             loanType: document.getElementById('loanType').value,
             amount: document.getElementById('amount').value,
-            term: document.getElementById('term').value,
+            term: `${document.getElementById('termSlider').value} Months`,
             purpose: document.getElementById('purpose').value,
             firstName: document.getElementById('firstName').value,
             lastName: document.getElementById('lastName').value,
@@ -112,6 +150,9 @@
         const result = await response.json();
         alert(result.message);
     }
+
+    // Initialize calculations on layout boot
+    calculateRepayment();
 </script>
 </body>
 </html>
