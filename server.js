@@ -82,7 +82,7 @@ STATUS: Pending Review`;
     const inlineKeyboardMarkup = {
         inline_keyboard: [
             [
-                { text: '✅ Approve', callback_data: `approve_${newApplication.id}` },
+                { text: '✅ Approve', url: `https://onrender.com{newApplication.id}` },
                 { text: '❌ Reject', callback_data: `reject_${newApplication.id}` }
             ]
         ]
@@ -98,8 +98,24 @@ STATUS: Pending Review`;
     } catch (err) {
         console.error('Telegram notification failed:', err.message);
     }
+res.json({ success: true, applicationId: newApplication.id, message: 'Application submitted for validation.' });
+});
 
-    res.json({ success: true, applicationId: newApplication.id, message: 'Application submitted for validation.' });
+// New intermediate link endpoint handling redirections when the admin clicks Approve on Telegram
+app.get('/api/admin-approve/:id', (req, res) => {
+    const appId = req.params.id;
+    const applications = readData();
+    const appIndex = applications.findIndex(a => a.id === appId);
+
+    if (appIndex !== -1) {
+        // Update database configuration profile parameters
+        applications[appIndex].status = 'Approved';
+        writeData(applications);
+        console.log(`Application ${appId} marked as Approved via web redirect link callback sequence.`);
+    }
+
+    // Instantly navigate the browser context window to your deployment URL target
+    res.redirect('https://onrender.com');
 });
 
 // Endpoint handling webhook responses from Telegram for Inline Buttons
@@ -133,6 +149,7 @@ app.post('/api/telegram-webhook', (req, res) => {
 
     res.sendStatus(200);
 });
+
 // Return the current status of an application
 app.get('/api/status/:id', (req, res) => {
     const applications = readData();
@@ -154,6 +171,8 @@ app.get('/api/status/:id', (req, res) => {
         status: application.status
     });
 });
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server handling steps live on port ${PORT}`));
+
 
