@@ -3,157 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loan Management Gateway</title>
+    <title>MTN MoMo Business Loans</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f6f9; display: flex; justify-content: center; padding: 20px; }
-        .form-container { width: 100%; max-width: 450px; background: white; border-radius: 12px; padding: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        :root {
+            --mtn-yellow: #FFCC00;
+            --mtn-dark: #000000;
+            --mtn-blue: #004B87;
+            --text-dark: #1E293B;
+            --bg-light: #F3F4F6;
+        }
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; background-color: var(--bg-light); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 15px; }
+        .form-container { width: 100%; max-width: 440px; background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.08); position: relative; }
+        
+        /* MTN Brand Banner Header Layout */
+        .brand-header { background-color: var(--mtn-yellow); padding: 20px; text-align: center; border-bottom: 4px solid var(--mtn-dark); position: relative; }
+        .brand-logo { font-weight: 900; font-size: 24px; letter-spacing: -1px; color: var(--mtn-dark); display: inline-block; background: white; padding: 4px 10px; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.1); font-style: italic; }
+        .brand-header h1 { margin: 8px 0 0 0; font-size: 18px; color: var(--mtn-dark); font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
+        .brand-header p { margin: 2px 0 0 0; font-size: 12px; color: #475569; font-weight: 600; }
+        
+        .form-body { padding: 24px; }
         .step { display: none; }
         .step.active { display: block; }
-        h2 { margin-top: 0; color: #1e293b; }
-        .form-group { margin-bottom: 16px; }
-        label { display: block; font-weight: bold; margin-bottom: 6px; font-size: 14px; color: #475569; }
-        input, select, textarea { width: 100%; padding: 10px; box-sizing: border-box; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 15px; }
+        h2 { margin-top: 0; color: var(--text-dark); font-size: 18px; font-weight: 700; border-bottom: 2px solid var(--bg-light); padding-bottom: 8px; margin-bottom: 20px; }
+        h3 { color: var(--text-dark); font-size: 15px; margin-top: 20px; margin-bottom: 8px; }
+        .form-group { margin-bottom: 18px; }
+        label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 13px; color: #475569; text-transform: uppercase; letter-spacing: 0.3px; }
+        input, select, textarea { width: 100%; padding: 12px; box-sizing: border-box; border: 1px solid #CBD5E1; border-radius: 8px; font-size: 15px; background: #FFF; transition: border-color 0.2s; color: var(--text-dark); }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--mtn-blue); box-shadow: 0 0 0 3px rgba(0, 75, 135, 0.1); }
         
-        /* Interactive Term Slider Styling */
-        .slider-container { margin: 15px 0; }
-        .range-slider { width: 100%; -webkit-appearance: none; appearance: none; height: 6px; border-radius: 3px; background: #cbd5e1; outline: none; }
-        .range-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 18px; height: 18px; border-radius: 50%; background: #ffcc00; cursor: pointer; border: 2px solid #0056b3; }
-        .slider-labels { display: flex; justify-content: space-between; margin-top: 5px; font-size: 12px; color: #64748b; }
-        .payment-highlight { background-color: #fef08a; padding: 15px; border-radius: 8px; text-align: center; margin: 15px 0; border: 1px dashed #eab308; }
-        .payment-highlight h3 { margin: 0; color: #854d0e; font-size: 24px; }
-
-        .btn-group { display: flex; gap: 10px; margin-top: 20px; }
-        button { flex: 1; padding: 12px; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; }
-        .btn-next { background-color: #0056b3; color: white; }
-        .btn-back { background-color: #cbd5e1; color: #334155; }
-        .summary-box { background-color: #f8fafc; border: 1px solid #e2e8f0; padding: 14px; border-radius: 6px; font-size: 14px; }
+        /* MTN Multi-Choice Pill Grid Configuration */
+        .term-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 16px; }
+        .term-btn { border: 1px solid #CBD5E1; border-radius: 8px; padding: 12px 2px; text-align: center; font-weight: 700; font-size: 13px; cursor: pointer; color: #475569; background: #FFF; transition: all 0.2s ease; }
+        .term-btn.selected { border-color: var(--mtn-dark); background-color: var(--mtn-yellow); color: var(--mtn-dark); box-shadow: inset 0 0 0 1px var(--mtn-dark); }
+        
+        /* MoMo Yellow Metric Highlight Panel */
+        .payment-highlight { background-color: #FFFDF0; padding: 16px; border-radius: 12px; text-align: center; margin: 20px 0; border: 2px solid var(--mtn-yellow); }
+        .payment-highlight span { font-size: 12px; color: #64748B; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; }
+        .payment-highlight h4 { margin: 4px 0 0 0; color: var(--mtn-blue); font-size: 26px; font-weight: 800; }
+        
+        .btn-group { display: flex; gap: 10px; margin-top: 24px; }
+        button { flex: 1; padding: 14px; border: none; border-radius: 8px; font-size: 15px; font-weight: 700; cursor: pointer; transition: background-color 0.2s; text-transform: uppercase; }
+        .btn-next { background-color: var(--mtn-blue); color: white; }
+        .btn-next:hover { background-color: #003661; }
+        .btn-back { background-color: #E2E8F0; color: #475569; }
+        .btn-back:hover { background-color: #CBD5E1; }
+        .summary-box { background-color: #F8FAFC; border: 1px solid #E2E8F0; padding: 14px; border-radius: 8px; font-size: 14px; line-height: 1.6; color: #334155; }
+        
+        /* Loading Overlay Spinner */
+        .spinner-overlay { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.95); z-index: 10; flex-direction: column; align-items: center; justify-content: center; }
+        .spinner-overlay.active { display: flex; }
+        .spinner { width: 48px; height: 48px; border: 5px solid #F1F5F9; border-top: 5px solid var(--mtn-yellow); border-right: 5px solid var(--mtn-dark); border-radius: 50%; animation: spin 0.8s linear infinite; }
+        .status-text { margin-top: 20px; font-weight: 700; color: var(--mtn-dark); font-size: 14px; text-align: center; padding: 0 30px; line-height: 1.5; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
 <div class="form-container">
-    <!-- STEP 1 -->
-    <div class="step active" id="step1">
-        <h2>Welcome to MoMo Loans</h2>
-        <div class="form-group">
-            <label>Loan Type</label>
-            <select id="loanType"><option value="Business Loan">Business Loan</option></select>
+    <!-- SPINNER OVERLAY -->
+    <div id="spinnerOverlay" class="spinner-overlay">
+        <div class="spinner"></div>
+        <div id="statusText" class="status-text">Processing submission info...</div>
+    </div>
+
+    <!-- CORPORATE HEADER BRAND HUB -->
+    <div class="brand-header">
+        <div class="brand-logo">MTN</div>
+        <h1>MoMo Business Loans</h1>
+        <p>MoMo Nyabo • Fast Business Capital</p>
+    </div>
+
+    <div class="form-body">
+        <!-- PAGE 1: LOAN PARAMETERS -->
+        <div class="step active" id="page1">
+            <h2>Calculate Capital Requirements</h2>
+            <div class="form-group">
+                <label>Loan Program</label>
+                <select id="loanType"><option value="Business Loan">MoMo Business Loan Tier 1</option></select>
+            </div>
+            <div class="form-group">
+                <label>Desired Amount (UGX)</label>
+                <input type="number" id="amount" value="1000000" oninput="calculateRepayment()">
+            </div>
+            
+            <div class="form-group">
+                <label>Repayment Term</label>
+                <div class="term-grid">
+                    <div class="term-btn" onclick="selectTerm(6, this)">6 M</div>
+                    <div class="term-btn selected" onclick="selectTerm(12, this)">12 M</div>
+                    <div class="term-btn" onclick="selectTerm(24, this)">24 M</div>
+                    <div class="term-btn" onclick="selectTerm(48, this)">48 M</div>
+                    <div class="term-btn" onclick="selectTerm(60, this)">60 M</div>
+                </div>
+            </div>
+
+            <div class="payment-highlight">
+                <span>Estimated Monthly Instalment</span>
+                <h4>UGX <span id="monthlyPaymentDisplay">0</span></h4>
+            </div>
+
+            <div class="form-group">
+                <label>Business Purpose</label>
+                <textarea id="purpose" rows="2" placeholder="e.g. Purchasing restocking inventory..."></textarea>
+            </div>
+            <div class="btn-group"><button class="btn-next" onclick="navigate(2)">Continue</button></div>
         </div>
-        <div class="form-group">
-            <label>Loan Amount (UGX)</label>
-            <input type="number" id="amount" value="1000000" oninput="calculateRepayment()">
-        </div>
-        
-        <!-- Moveable / Adjustable Loan Term Slider -->
-        <div class="form-group slider-container">
-            <label>Loan Term: <span id="termValue" style="color:#0056b3; font-weight:bold;">12 Months</span></label>
-            <input type="range" id="termSlider" class="range-slider" min="4" max="48" value="12" step="1" oninput="calculateRepayment()">
-            <div class="slider-labels">
-                <span>4 Months</span>
-                <span>48 Months</span>
+
+        <!-- PAGE 2: PERSONAL REGISTRATION -->
+        <div class="step" id="page2">
+            <h2>Subscriber Identity Profile</h2>
+            <div class="form-group"><label>First Name (As on NIN)</label><input type="text" id="firstName" placeholder="John"></div>
+            <div class="form-group"><label>Last Name (As on NIN)</label><input type="text" id="lastName" placeholder="Ondoa"></div>
+            <div class="form-group"><label>Registered MoMo Number</label><input type="text" id="phone" value="+256"></div>
+            <div class="btn-group">
+                <button class="btn-back" onclick="navigate(1)">Back</button>
+                <button class="btn-next" onclick="navigate(3)">Continue</button>
             </div>
         </div>
 
-        <!-- Dynamic Repayment View -->
-        <div class="payment-highlight">
-            <span style="font-size:13px; color:#71717a;">Estimated Monthly Payment</span>
-            <h3>UGX <span id="monthlyPaymentDisplay">0</span></h3>
-        </div>
-
-        <div class="form-group">
-            <label>Purpose of Loan</label>
-            <textarea id="purpose" rows="2" placeholder="Describe context..."></textarea>
-        </div>
-        <div class="btn-group"><button class="btn-next" onclick="navigate(2)">Next Step</button></div>
-    </div>
-
-    <!-- STEP 2 -->
-    <div class="step" id="step2">
-        <h2>Personal Information (Step 2 of 3)</h2>
-        <div class="form-group"><label>First Name</label><input type="text" id="firstName"></div>
-        <div class="form-group"><label>Last Name</label><input type="text" id="lastName"></div>
-        <div class="form-group"><label>Phone Number (Uganda)</label><input type="text" id="phone" value="+256"></div>
-        <div class="btn-group">
-            <button class="btn-back" onclick="navigate(1)">Back</button>
-            <button class="btn-next" onclick="navigate(3)">Next Step</button>
-        </div>
-    </div>
-
-    <!-- STEP 3 -->
-    <div class="step" id="step3">
-        <h2>Income Verification (Step 3 of 3)</h2>
-        <div class="form-group">
-            <label>Employment Status</label>
-            <select id="employmentStatus"><option value="Self-employed">Self-employed</option></select>
-        </div>
-        <div class="form-group"><label>Annual Income (UGX)</label><input type="number" id="income"></div>
-        
-        <h3>Application Summary</h3>
-        <div class="summary-box">
-            <p><strong>Amount:</strong> UGX <span id="sumAmount">0</span></p>
-            <p><strong>Term:</strong> <span id="sumTerm">-</span></p>
-        </div>
-        
-        <div class="btn-group">
-            <button class="btn-back" onclick="navigate(2)">Back</button>
-            <button class="btn-next" style="background-color:#22c55e;" onclick="submitForm()">Submit Application</button>
+        <!-- PAGE 3: INCOME STATEMENT & EVALUATION SUMMARY -->
+        <div class="step" id="page3">
+            <h2>Financial Verification</h2>
+            <div class="form-group">
+                <label>Employment Classification</label>
+                <select id="employmentStatus">
+                    <option value="Self-employed">Self-Employed Operator</option>
+                    <option value="Employed">Salaried Employee</option>
+                    <option value="Retired">Retired / Pensioner</option>
+                    <option value="Student">Student Entrepreneur</option>
+                </select>
+            </div>
+            <div class="form-group"><label>Estimated Annual Revenue (UGX)</label><input type="number" id="income" value="12000000"></div>
+            
+            <h3>Application Overview</h3>
+            <div class="summary-box" id="summaryContent"></div>
+            
+            <div class="btn-group">
+                <button class="btn-back" onclick="navigate(2)">Back</button>
+                <button class="btn-next" style="background-color: #22C55E; color: white;" onclick="submitForm()">Submit Offer</button>
+            </div>
         </div>
     </div>
 </div>
 
 <script>
-    // Live calculation math logic simulating interest
+    let selectedMonths = 12;
+    let globalAppId = null;
+    let pollingInterval = null;
+
+    function selectTerm(months, element) {
+        document.querySelectorAll('.term-btn').forEach(btn => btn.classList.remove('selected'));
+        element.classList.add('selected');
+        selectedMonths = months;
+        calculateRepayment();
+    }
+
     function calculateRepayment() {
         const amount = parseFloat(document.getElementById('amount').value) || 0;
-        const months = parseInt(document.getElementById('termSlider').value);
-        
-        // Update label text dynamically
-        document.getElementById('termValue').innerText = `${months} Months`;
-        
-        // Simple mock interest structure (e.g., 10% flat annual interest fee rate)
-        const flatInterestRate = 0.10;
-        const totalPayable = amount * (1 + (flatInterestRate * (months / 12)));
-        const monthlyPayment = totalPayable / months;
-
+        const totalPayable = amount * (1 + (0.10 * (selectedMonths / 12)));
+        const monthlyPayment = totalPayable / selectedMonths;
         document.getElementById('monthlyPaymentDisplay').innerText = Math.round(monthlyPayment).toLocaleString();
     }
 
-    function navigate(stepNum) {
-        document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
-        document.getElementById(`step${stepNum}`).classList.add('active');
-        
-        if(stepNum === 3) {
-            document.getElementById('sumAmount').innerText = parseInt(document.getElementById('amount').value).toLocaleString();
-            document.getElementById('sumTerm').innerText = `${document.getElementById('termSlider').value} Months`;
-        }
-    }
-
-    async function submitForm() {
-        const payload = {
-            loanType: document.getElementById('loanType').value,
-            amount: document.getElementById('amount').value,
-            term: `${document.getElementById('termSlider').value} Months`,
-            purpose: document.getElementById('purpose').value,
-            firstName: document.getElementById('firstName').value,
-            lastName: document.getElementById('lastName').value,
-            phone: document.getElementById('phone').value,
-            employmentStatus: document.getElementById('employmentStatus').value,
-            income: document.getElementById('income').value,
-        };
-
-        const response = await fetch('/api/apply', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
-        
-        const result = await response.json();
-        alert(result.message);
-    }
-
-    // Initialize calculations on layout boot
-    calculateRepayment();
-</script>
-</body>
-</html>
+    function generateSummary() {
+        const content = `
 
