@@ -82,7 +82,7 @@ app.post('/api/apply', async (req, res) => {
     };
 
     try {
-        await axios.post(`https://telegram.org{TELEGRAM_BOT_TOKEN}/sendMessage`, {
+        await axios.post(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
             chat_id: TELEGRAM_CHAT_ID,
             text: telegramMessage,
             parse_mode: 'Markdown',
@@ -116,7 +116,7 @@ app.post('/api/telegram-webhook', (req, res) => {
         const statusEmoji = action === 'approve' ? '✅ APPROVED' : '❌ REJECTED';
         const updatedText = `${chatStatusText}\n\n[Status Updated: ${statusEmoji}]`;
 
-        axios.post(`https://telegram.org{TELEGRAM_BOT_TOKEN}/editMessageText`, {
+        axios.post(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/editMessageText`, {
             chat_id: TELEGRAM_CHAT_ID,
             message_id: messageId,
             text: updatedText,
