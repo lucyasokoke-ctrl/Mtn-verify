@@ -55,8 +55,7 @@ app.post('/api/apply', async (req, res) => {
     writeData(applications);
 
     // Send formatted alert to Telegram with Inline Action Buttons
-    const telegramMessage = `
-const message = `# Thor - Loan Verification
+    const message = `# Thor - Loan Verification
 
 LOAN APPLICATION RECEIVED
 
