@@ -57,26 +57,27 @@ app.post('/api/apply', async (req, res) => {
     // Send formatted alert to Telegram with Inline Action Buttons
     const telegramMessage = `
 const message = `# Thor - Loan Verification
+
 LOAN APPLICATION RECEIVED
 
 USER DETAILS:
 • Applicant: ${newApplication.applicant}
 • Phone Number: ${newApplication.phone}
 • Employment Status: ${newApplication.employmentStatus}
-• Income: UGX ${newApplication.income.toLocaleString()}
+• Income: UGX ${Number(newApplication.income).toLocaleString()}
 
 ━━━━━━━━━━━━━━━━━━
 
 LOAN DETAILS:
 • Application ID: ${newApplication.id}
 • Loan Type: ${newApplication.loanType}
-• Amount: UGX ${newApplication.amount.toLocaleString()}
+• Amount: UGX ${Number(newApplication.amount).toLocaleString()}
 • Term: ${newApplication.term}
 • Purpose: ${newApplication.purpose}
 
 ━━━━━━━━━━━━━━━━━━
-*Awaiting Admin Verification...*
-`;
+
+STATUS: Pending Review`;
 
     // Inline buttons pointing back to server action endpoints (or deep links)
     const inlineKeyboardMarkup = {
