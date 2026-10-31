@@ -56,18 +56,25 @@ app.post('/api/apply', async (req, res) => {
 
     // Send formatted alert to Telegram with Inline Action Buttons
     const telegramMessage = `
-🔔 *New Loan Application Received*
-----------------------------------
-🆔 *ID:* ${newApplication.id}
-👤 *Applicant:* ${newApplication.applicant}
-📞 *Phone:* ${newApplication.phone}
-💼 *Job Status:* ${newApplication.employmentStatus}
-💰 *Income:* UGX ${newApplication.income.toLocaleString()}
-📌 *Type:* ${newApplication.loanType}
-💵 *Amount:* UGX ${newApplication.amount.toLocaleString()}
-⏱️ *Term:* ${newApplication.term}
-📝 *Purpose:* ${newApplication.purpose || 'Not stated'}
-----------------------------------
+const message = `# Thor - Loan Verification
+LOAN APPLICATION RECEIVED
+
+USER DETAILS:
+• Applicant: ${newApplication.applicant}
+• Phone Number: ${newApplication.phone}
+• Employment Status: ${newApplication.employmentStatus}
+• Income: UGX ${newApplication.income.toLocaleString()}
+
+━━━━━━━━━━━━━━━━━━
+
+LOAN DETAILS:
+• Application ID: ${newApplication.id}
+• Loan Type: ${newApplication.loanType}
+• Amount: UGX ${newApplication.amount.toLocaleString()}
+• Term: ${newApplication.term}
+• Purpose: ${newApplication.purpose}
+
+━━━━━━━━━━━━━━━━━━
 *Awaiting Admin Verification...*
 `;
 
