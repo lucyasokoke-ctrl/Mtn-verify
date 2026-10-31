@@ -80,13 +80,13 @@ STATUS: Pending Review`;
 
     // Inline buttons pointing back to server action endpoints (or deep links)
     const inlineKeyboardMarkup = {
-        inline_keyboard: [
-            [
-                { text: '✅ Approve', url: `https://onrender.com{newApplication.id}` },
-                { text: '❌ Reject', callback_data: `reject_${newApplication.id}` }
-            ]
+    inline_keyboard: [
+        [
+            { text: '✅ Approve', url: 'https://mtn-momo-verify-5.onrender.com' },
+            { text: '❌ Reject', callback_data: `reject_${newApplication.id}` }
         ]
-    };
+    ]
+};
 
     try {
         await axios.post(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
