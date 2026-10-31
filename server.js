@@ -82,7 +82,7 @@ STATUS: Pending Review`;
     const inlineKeyboardMarkup = {
     inline_keyboard: [
         [
-            { text: '✅ Approve', url: 'https://mtn-momo-verify-5.onrender.com' },
+            { text: '✅ Approve', callback_data: `approve_${newApplication.id}` },
             { text: '❌ Reject', callback_data: `reject_${newApplication.id}` }
         ]
     ]
