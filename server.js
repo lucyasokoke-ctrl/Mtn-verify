@@ -91,7 +91,7 @@ STATUS: Pending Review`;
     try {
         await axios.post(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
             chat_id: TELEGRAM_CHAT_ID,
-            text: telegramMessage,
+            text: message,
             parse_mode: 'Markdown',
             reply_markup: inlineKeyboardMarkup
         });
