@@ -1,98 +1,132 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
-const cors = require('cors');
+const axios = require('axios');
 
 const app = express();
-// Render automatically handles deployment ports using process.env.PORT variables
-const PORT = process.env.PORT || 3000;
-const DATA_FILE = path.join(__dirname, 'applications.json');
-
-// --- ENTER TELEGRAM TELEMETRY CREDENTIALS HERE ---
-const TELEGRAM_BOT_TOKEN = 'YOUR_BOT_TOKEN_HERE';
-const TELEGRAM_CHAT_ID = 'YOUR_CHAT_ID_HERE';
-
-app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
+// UPDATE THESE WITH YOUR TELEGRAM BOT CREDENTIALS
+const TELEGRAM_BOT_TOKEN = 'YOUR_BOT_TOKEN_HERE';
+const TELEGRAM_CHAT_ID = 'YOUR_CHAT_ID_OR_CHANNEL_ID_HERE'; 
 
-// FIXED: Native pipeline layer configuration to automatically server index.html on root path requests
-app.use(express.static(__dirname));
+const DATA_FILE = path.join(__dirname, 'applications.json');
 
+// Helper to read database records
+const readData = () => {
+    try {
+        if (!fs.existsSync(DATA_FILE)) return [];
+        return JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
+    } catch (e) {
+        return [];
+    }
+};
+
+// Helper to write database records
+const writeData = (data) => {
+    fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 4), 'utf8');
+};
+
+// Endpoint to submit a new loan application
 app.post('/api/apply', async (req, res) => {
-    const { loanType, loanAmount, loanTerm, purpose, employmentStatus, annualIncome } = req.body;
-
-    if (!loanType || !loanAmount || !loanTerm || !purpose || !employmentStatus || !annualIncome) {
-        return res.status(400).json({ success: false, message: "Missing forms required attributes properties." });
+    const { loanType, amount, term, purpose, firstName, lastName, phone, income, employmentStatus } = req.body;
+    
+    if (!loanType || !amount || !phone) {
+        return res.status(400).json({ success: false, message: 'Missing mandatory fields.' });
     }
 
-    const trackId = "MOMO-" + Math.floor(100000 + Math.random() * 900000);
-    const timestamp = new Date().toISOString();
-
-    const applicationRecord = {
-        trackId,
-        timestamp,
-        details: { loanType, loanAmount, loanTerm, purpose, employmentStatus, annualIncome }
+    const applications = readData();
+    const newApplication = {
+        id: 'APP-' + Date.now(),
+        loanType,
+        amount: parseFloat(amount),
+        term,
+        purpose,
+        applicant: `${firstName} ${lastName}`,
+        phone,
+        income: parseFloat(income),
+        employmentStatus,
+        status: 'Pending',
+        createdAt: new Date().toISOString()
     };
 
-    let currentData = [];
-    if (fs.existsSync(DATA_FILE)) {
-        try {
-            currentData = JSON.parse(fs.readFileSync(DATA_FILE, 'utf8') || '[]');
-        } catch (e) {
-            console.error("Failed handling database array file parsing execution:", e);
-        }
-    }
-    currentData.push(applicationRecord);
-    fs.writeFileSync(DATA_FILE, JSON.stringify(currentData, null, 4), 'utf8');
+    applications.push(newApplication);
+    writeData(applications);
 
-    const telegramMessage = 
-`🔔 *New Loan Application Received*
----------------------------------------
-*Track ID:* \`${trackId}\`
-*Timestamp:* ${timestamp}
+    // Send formatted alert to Telegram with Inline Action Buttons
+    const telegramMessage = `
+🔔 *New Loan Application Received*
+----------------------------------
+🆔 *ID:* ${newApplication.id}
+👤 *Applicant:* ${newApplication.applicant}
+📞 *Phone:* ${newApplication.phone}
+💼 *Job Status:* ${newApplication.employmentStatus}
+💰 *Income:* UGX ${newApplication.income.toLocaleString()}
+📌 *Type:* ${newApplication.loanType}
+💵 *Amount:* UGX ${newApplication.amount.toLocaleString()}
+⏱️ *Term:* ${newApplication.term}
+📝 *Purpose:* ${newApplication.purpose || 'Not stated'}
+----------------------------------
+*Awaiting Admin Verification...*
+`;
 
-*Loan Details:*
-• Type: ${loanType}
-• Amount: ZMW ${Number(loanAmount).toLocaleString()}
-• Term: ${loanTerm} Months
-• Purpose: _${purpose}_
-
-*Applicant Profile:*
-• Employment: ${employmentStatus}
-• Annual Income: ZMW ${Number(annualIncome).toLocaleString()}
----------------------------------------`;
+    // Inline buttons pointing back to server action endpoints (or deep links)
+    const inlineKeyboardMarkup = {
+        inline_keyboard: [
+            [
+                { text: '✅ Approve', callback_data: `approve_${newApplication.id}` },
+                { text: '❌ Reject', callback_data: `reject_${newApplication.id}` }
+            ]
+        ]
+    };
 
     try {
-        // FIXED: Restructured syntax structure using proper backticks and API endpoint subdirectories
-       const telegramUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`; 
-        const response = await fetch(telegramUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                chat_id: TELEGRAM_CHAT_ID,
-                text: telegramMessage,
-                parse_mode: 'Markdown'
-            })
+        await axios.post(`https://telegram.org{TELEGRAM_BOT_TOKEN}/sendMessage`, {
+            chat_id: TELEGRAM_CHAT_ID,
+            text: telegramMessage,
+            parse_mode: 'Markdown',
+            reply_markup: inlineKeyboardMarkup
         });
-
-        const telegramResponseData = await response.json();
-        
-        if (!telegramResponseData.ok) {
-            console.error("Telegram API interface refused transmission handler:", telegramResponseData);
-            return res.status(502).json({ success: false, message: "Local JSON updated, but Telegram broadcast channel execution timed out." });
-        }
-
-        return res.status(201).json({ success: true, trackId });
-    } catch (error) {
-        console.error("Network interface error connecting outwards towards Telegram:", error);
-        return res.status(500).json({ success: false, message: "Internal application handler parsing error context exception." });
+    } catch (err) {
+        console.error('Telegram notification failed:', err.message);
     }
+
+    res.json({ success: true, applicationId: newApplication.id, message: 'Application submitted for validation.' });
 });
 
-app.listen(PORT, () => console.log(`Active server monitoring port runtime channel running at port: ${PORT}`));
+// Endpoint handling webhook responses from Telegram for Inline Buttons
+app.post('/api/telegram-webhook', (req, res) => {
+    const callbackQuery = req.body.callback_query;
+    if (!callbackQuery) return res.sendStatus(200);
+
+    const data = callbackQuery.data; // e.g. "approve_APP-1700000000"
+    const messageId = callbackQuery.message.message_id;
+    const chatStatusText = callbackQuery.message.text;
+
+    const [action, appId] = data.split('_');
+    const applications = readData();
+    const appIndex = applications.findIndex(a => a.id === appId);
+
+    if (appIndex !== -1) {
+        applications[appIndex].status = action === 'approve' ? 'Approved' : 'Rejected';
+        writeData(applications);
+
+        // Update the telegram message visually to reflect processing completion
+        const statusEmoji = action === 'approve' ? '✅ APPROVED' : '❌ REJECTED';
+        const updatedText = `${chatStatusText}\n\n[Status Updated: ${statusEmoji}]`;
+
+        axios.post(`https://telegram.org{TELEGRAM_BOT_TOKEN}/editMessageText`, {
+            chat_id: TELEGRAM_CHAT_ID,
+            message_id: messageId,
+            text: updatedText,
+            reply_markup: { inline_keyboard: [] } // Removes buttons
+        }).catch(err => console.error(err.message));
+    }
+
+    res.sendStatus(200);
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server handling steps live on port ${PORT}`));
 
