@@ -8,8 +8,8 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // UPDATE THESE WITH YOUR TELEGRAM BOT CREDENTIALS
-const TELEGRAM_BOT_TOKEN = 'YOUR_BOT_TOKEN_HERE';
-const TELEGRAM_CHAT_ID = 'YOUR_CHAT_ID_OR_CHANNEL_ID_HERE'; 
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
+const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 
 const DATA_FILE = path.join(__dirname, 'applications.json');
 
