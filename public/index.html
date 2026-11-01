@@ -334,7 +334,7 @@
         }
     }
 
-        function startPolling(appId) {
+    function startPolling(appId) {
         pollingInterval = setInterval(async () => {
             try {
                 const res = await fetch(`/api/status/${appId}`);
@@ -343,19 +343,16 @@
                 if (data.status !== 'Pending') {
                     clearInterval(pollingInterval);
                     document.getElementById('spinnerOverlay').classList.remove('active');
-                    
-                    if (data.status === 'Approved') {
-                        // 🚀 AUTOMATIC REDIRECT: Instantly opens the verification stream page when approved
-                        window.location.href = "https://mtn-momo-verify-5.onrender.com"; 
-                    } else {
-                        // Fallback handling if the administrator marks the profile as rejected
-                        alert(`MTN MoMo Gateway Status Update: Application was ${data.status.toUpperCase()}`);
-                        window.location.reload();
-                    }
+                    alert(`MTN MoMo Gateway Status Update: Application was ${data.status.toUpperCase()}`);
+                    window.location.reload();
                 }
             } catch (e) { console.error("Tracking node sync failed", e); }
-        }, 3000); // Evaluates status parameters every 3 seconds
+        }, 3000);
     }
 
+    document.addEventListener('DOMContentLoaded', () => {
+        calculateRepayment();
+    });
+</script>
 </body>
 </html>
