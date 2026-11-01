@@ -6,12 +6,60 @@
     <title>MTN MoMo Business Loans</title>
     <style>
         :root {
-            --mtn-yellow: #FFCC00;
-            --mtn-dark: #000000;
-            --mtn-blue: #004B87;
-            --text-dark: #1E293B;
-            --bg-light: #F3F4F6;
-        }
+    --mtn-yellow: #FFCC00;
+    --mtn-dark-teal: #0A5374; /* Updated to match the exact background shade in the image */
+}
+
+/* Updated header to span full width with correct padding and color */
+.brand-header { 
+    background-color: var(--mtn-dark-teal); 
+    padding: 30px 20px; 
+    text-align: center; 
+    border-bottom: none; /* Removed the bottom yellow line to match image */
+    position: relative; 
+}
+
+.brand-logo-container { 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
+}
+
+/* Replicating the yellow square icon */
+.momo-icon-shape { 
+    background-color: var(--mtn-yellow); 
+    color: #0A5374; 
+    font-weight: 900; 
+    font-size: 34px; 
+    padding: 15px 22px; 
+    border-radius: 22px; /* Smooth rounded corners for the square */
+    display: inline-block; 
+    font-family: 'Arial Black', Gadget, sans-serif; 
+    letter-spacing: -1px; 
+    line-height: 1; 
+}
+
+/* "from MTN" text styles */
+.momo-subtext { 
+    color: var(--mtn-yellow); 
+    font-size: 16px; 
+    font-weight: 800; 
+    text-transform: uppercase; /* Switched to uppercase to match "from MTN" in image */
+    margin: 12px 0 10px 0; 
+    letter-spacing: 0.5px; 
+}
+
+/* Main white title banner string styling */
+.banner-title {
+    color: #FFFFFF;
+    font-size: 22px;
+    font-weight: 700;
+    margin: 8px 0 0 0;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    letter-spacing: -0.2px;
+}
+
         body { 
     font-family: 'Helvetica Neue', Arial, sans-serif; 
     background-color: var(--bg-light); 
@@ -111,13 +159,20 @@
         <div id="redirectHint" class="redirect-text">Redirecting in a few moments...</div>
     </div>
 
-    <!-- PERSISTENT BRAND HEADER WITH OFFICIAL LOGO DESIGN -->
-    <div class="brand-header">
-        <div class="brand-logo-container">
-            <div class="momo-icon-shape">MoMo</div>
-            <div class="momo-subtext">from MTN</div>
-        </div>
+    <!-- PERSISTENT BRAND HEADER REPLICATING THE SPECIFIED DESIGN -->
+<div class="brand-header">
+    <div class="brand-logo-container">
+        <!-- Yellow icon matching the graphic -->
+        <div class="momo-icon-shape">MoMo</div>
+        
+        <!-- Yellow subtitle string -->
+        <div class="momo-subtext">from MTN</div>
+        
+        <!-- White bottom description line -->
+        <h1 class="banner-title">Get Loan Easily Through MTN MoMo</h1>
     </div>
+</div>
+
 
     <div class="form-body">
 
