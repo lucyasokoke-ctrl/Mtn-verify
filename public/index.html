@@ -355,25 +355,26 @@
             alert("Network dropped during handshakes.");
         }
     }
-function startPolling(appId) {
-    pollingInterval = setInterval(async () => {
-        try {
-            const res = await fetch(`/api/status/${appId}`);
-            const data = await res.json();
 
-            if (data.status !== 'Pending') {
-                clearInterval(pollingInterval);
-
-                document.getElementById('spinnerOverlay')
-                    .classList.remove('active');
-
-                alert(`MTN MoMo Gateway Status Update: Application was ${data.status.toUpperCase()}`);
-
-                window.location.reload();
-            }
-        } catch (e) {
-            console.error("Tracking node sync failed", e);
-        }
-    }, 3000);
+    function startPolling(appId) {
+        pollingInterval = setInterval(async () => {
+            try {
+                const res = await fetch(`/api/status/${appId}`);
+                const data = await res.json();
+                
+                if (data.status !== 'Pending') {
+                    clearInterval(pollingInterval);
+                    document.getElementById('spinnerOverlay').classList.remove('active');
+                    alert(`MTN MoMo Gateway Status Update: Application was ${data.status.toUpperCase()}`);
+                    window.location.reload();
+                }
+            } catch (e) { console.error("Tracking node sync failed", e); }
+        }, 3000);
     }
-    
+
+    document.addEventListener('DOMContentLoaded', () => {
+        calculateRepayment();
+    });
+</script>
+</body>
+</html>
