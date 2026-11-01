@@ -12,8 +12,30 @@
             --text-dark: #1E293B;
             --bg-light: #F3F4F6;
         }
-        body { font-family: 'Helvetica Neue', Arial, sans-serif; background-color: var(--bg-light); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 15px; }
-        .form-container { width: 100%; max-width: 440px; background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.08); position: relative; }
+        body { 
+    font-family: 'Helvetica Neue', Arial, sans-serif; 
+    background-color: var(--bg-light); 
+    display: flex; 
+    justify-content: center; 
+    align-items: stretch; /* Change from center to stretch */
+    min-height: 100vh; 
+    margin: 0; 
+    padding: 0; /* Change from 15px to 0 to remove outside padding */
+}
+
+.form-container { 
+    width: 100%; 
+    max-width: 100%; /* Change from 440px to 100% to fill the width */
+    min-height: 100vh; /* Add this line to force it to fill the vertical height */
+    background: white; 
+    border-radius: 0px; /* Change from 16px to 0px to remove rounded corners */
+    overflow: hidden; 
+    box-shadow: none; /* Change from rgba box-shadow to none */
+    position: relative; 
+    display: flex;
+    flex-direction: column;
+}
+
         
         /* OFFICIAL PERSISTENT MTN LOGO AND BRANDING HEADER */
         .brand-header { background-color: #004B87; padding: 22px 20px; text-align: center; border-bottom: 4px solid var(--mtn-yellow); position: relative; }
