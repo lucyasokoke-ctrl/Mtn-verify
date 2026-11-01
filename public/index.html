@@ -95,10 +95,10 @@
         .success-phone-inner-m { font-family: 'Arial Black', sans-serif; font-weight: 900; font-size: 18px; color: #004B87; position: relative; margin-top: -2px; }
         .success-phone-inner-m::before { content: '▲'; font-size: 6px; color: #004B87; position: absolute; left: -6px; top: -2px; }
         .success-step-text-container { display: flex; flex-direction: column; }
-### Part 2: Body Elements & Form Layout
-This section establishes the main user entry canvas container, multi-step application workflow interfaces, and structural layout panels for the final confirmation view.
+       ### Part 2: HTML Page Containers & Forms
+This component handles the structure for Page 1, Page 2, Page 3, the runtime processing spinner layout, and the embedded layout container for the new success page.
 
-```html
+```html 
 <body>
 <div class="form-container" id="appFormContainer">
     <div id="spinnerOverlay" class="spinner-overlay">
@@ -215,7 +215,7 @@ This section establishes the main user entry canvas container, multi-step applic
     </div>
 </div>
 
-<!-- NEW COMPONENT: INTEGRATED SUCCESS CANVAS VIEW -->
+<!-- SUCCESS CANVAS VIEW -->
 <div class="success-page" id="successPageContainer">
     <div class="success-top-bar">
         <div class="momo-logo-img">MoMo</div>
@@ -386,7 +386,6 @@ This section establishes the main user entry canvas container, multi-step applic
                     document.getElementById('spinnerOverlay').classList.remove('active');
                     
                     if (data.status.toLowerCase() === 'approved') {
-                        // Dynamically hide form fields and fade in the graphical success dashboard canvas
                         document.getElementById('appFormContainer').style.display = 'none';
                         document.getElementById('successPageContainer').classList.add('active');
                     } else {
@@ -401,4 +400,4 @@ This section establishes the main user entry canvas container, multi-step applic
 </script>
 </body>
 </html>
-        
+
