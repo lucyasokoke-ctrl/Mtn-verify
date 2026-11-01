@@ -39,6 +39,37 @@
         .momo-icon-shape { background-color: var(--mtn-yellow); color: #004B87; font-weight: 900; font-size: 24px; padding: 10px 16px; border-radius: 14px; display: inline-block; font-family: 'Arial Black', sans-serif; letter-spacing: -1px; line-height: 1; box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
         .momo-subtext { color: var(--mtn-yellow); font-size: 14px; font-weight: 800; text-transform: lowercase; margin: 6px 0 0 0; letter-spacing: 0.5px; font-family: sans-serif; }
         .form-body { padding: 24px; }
+        .welcome-heading {
+    text-align: center;
+    background: #ffffff;
+    padding: 35px 10px 30px;
+    margin: -24px -24px 24px;
+}
+
+.welcome-heading h1 {
+    color: #202744;
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0 0 15px;
+}
+
+.welcome-heading p {
+    color: #888888;
+    font-size: 22px;
+    margin: 0;
+    line-height: 1.4;
+}
+
+@media (max-width: 480px) {
+    .welcome-heading h1 {
+        font-size: 27px;
+    }
+
+    .welcome-heading p {
+        font-size: 17px;
+    }
+}
         .step { display: none; }
         .step.active { display: block; }
         h2 { margin-top: 0; color: var(--text-dark); font-size: 17px; font-weight: 700; border-bottom: 2px solid var(--bg-light); padding-bottom: 8px; margin-bottom: 20px; }
@@ -112,9 +143,12 @@
         </div>
     </div>
     <div class="form-body">
+        <div class="welcome-heading">
+    <h1>Welcome to MTN MoMo</h1>
+    <p>Get loans easily through MTN MoMo</p>
+</div>
         <div id="errorBanner" style="display: none; background-color: #FEE2E2; color: #DC2626; border: 1px solid #FCA5A5; padding: 12px; border-radius: 8px; font-size: 14px; font-weight: 700; margin-bottom: 16px; text-align: center;"></div>
-        
-        <!-- PAGE 1: LOAN CONFIGURATIONS -->
+          <!-- PAGE 1: LOAN CONFIGURATIONS -->
         <div class="step active" id="page1">
             <h2>Calculate Capital Requirements</h2>
             <div class="form-group">
