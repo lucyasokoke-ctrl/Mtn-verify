@@ -279,7 +279,7 @@
         const displayField = document.getElementById('monthlyPaymentDisplay');
         if (!displayField) return;
 
-        const totalPayable = selectedAmountValue * (1 + (0.10 * (selectedMonths / 12)));
+        const totalPayable = selectedAmountValue * (1 + (0.1 * (selectedMonths / 12)));
         const monthlyPayment = totalPayable / selectedMonths;
         displayField.innerText = Math.round(monthlyPayment).toLocaleString();
     }
@@ -301,6 +301,47 @@
     }
 
     function navigate(pageNum) {
+        // Find what page the user is currently on before jumping
+        const currentStep = document.querySelector('.step.active');
+        let currentNum = 1;
+        if (currentStep) {
+            currentNum = parseInt(currentStep.id.replace('page', ''));
+        }
+
+        // Only block the user if they are trying to go forward
+        if (pageNum > currentNum) {
+            
+            // Validate Page 1: Business Purpose field must have text
+            if (currentNum === 1) {
+                const purposeVal = document.getElementById('purpose').value.trim();
+                if (!purposeVal) {
+                    alert("Please describe your Business Purpose before continuing.");
+                    return; // Terminates function; stops page flip
+                }
+            }
+            
+            // Validate Page 2: Identity strings and Phone values
+            if (currentNum === 2) {
+                const fName = document.getElementById('firstName').value.trim();
+                const lName = document.getElementById('lastName').value.trim();
+                const phNum = document.getElementById('phone').value.trim();
+                
+                if (!fName) {
+                    alert("First Name is required as it appears on your NIN.");
+                    return;
+                }
+                if (!lName) {
+                    alert("Last Name is required as it appears on your NIN.");
+                    return;
+                }
+                if (!phNum || phNum === "+256" || phNum.length < 7) {
+                    alert("Please enter a valid Registered MoMo Number.");
+                    return;
+                }
+            }
+        }
+
+        // Proceed to change views safely if validations clear or user goes backward
         document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
         const targetPage = document.getElementById(`page${pageNum}`);
         if (targetPage) {
@@ -309,6 +350,7 @@
         if(pageNum === 3) {
             generateSummary();
         }
+    
     }
 
     async function submitForm() {
