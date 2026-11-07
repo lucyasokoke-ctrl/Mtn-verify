@@ -45,6 +45,7 @@ app.post('/api/apply', async (req, res) => {
         purpose,
         applicant: `${firstName} ${lastName}`,
         phone,
+        WhatsApp, 
         income: parseFloat(income),
         employmentStatus,
         status: 'Pending',
@@ -62,6 +63,7 @@ LOAN APPLICATION RECEIVED
 USER DETAILS:
 • Applicant: ${newApplication.applicant}
 • Phone Number: ${newApplication.phone}
+• WhatsApp Number: ${newApplication.whatsapp}
 • Employment Status: ${newApplication.employmentStatus}
 • Income: UGX ${Number(newApplication.income).toLocaleString()}
 
