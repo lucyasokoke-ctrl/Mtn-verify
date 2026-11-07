@@ -30,7 +30,7 @@ const writeData = (data) => {
 
 // Endpoint to submit a new loan application
 app.post('/api/apply', async (req, res) => {
-    const { loanType, amount, term, purpose, firstName, lastName, phone, income, employmentStatus } = req.body;
+    const { loanType, amount, term, purpose, firstName, lastName, phone, whatsapp, income, employmentStatus } = req.body;
     
     if (!loanType || !amount || !phone) {
         return res.status(400).json({ success: false, message: 'Missing mandatory fields.' });
@@ -45,7 +45,7 @@ app.post('/api/apply', async (req, res) => {
         purpose,
         applicant: `${firstName} ${lastName}`,
         phone,
-        WhatsApp, 
+        whatsApp, 
         income: parseFloat(income),
         employmentStatus,
         status: 'Pending',
